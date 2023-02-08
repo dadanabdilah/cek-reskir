@@ -16,7 +16,7 @@ class Sistem extends BaseController
 
     public function update_resi()
     {
-        $key  = "a369ab24b20a5b6b639435b30d6c5d79d06e2db65261d0e221484299e38f6148";
+        $key  = "68726f2c48ed01b798228a748c9a77684f7959220263e8d08af9b7807b4e610f";
 
         $Resi = $this->Resi->findAll();
         $rows = [];
