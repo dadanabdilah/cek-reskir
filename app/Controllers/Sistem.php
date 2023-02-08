@@ -16,7 +16,7 @@ class Sistem extends BaseController
 
     public function update_resi()
     {
-        $key  = "68726f2c48ed01b798228a748c9a77684f7959220263e8d08af9b7807b4e610f";
+        // $key  = "68726f2c48ed01b798228a748c9a77684f7959220263e8d08af9b7807b4e610f";
 
         $Resi = $this->Resi->findAll();
         $rows = [];
@@ -24,7 +24,7 @@ class Sistem extends BaseController
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://api.binderbyte.com/v1/track?api_key=' . $key . '&courier='. $values->ekspedisi .'&awb=' . $values->no_resi,
+                CURLOPT_URL => 'https://api.binderbyte.com/v1/track?api_key=68726f2c48ed01b798228a748c9a77684f7959220263e8d08af9b7807b4e610f&courier='. $values->ekspedisi .'&awb=' . $values->no_resi,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
