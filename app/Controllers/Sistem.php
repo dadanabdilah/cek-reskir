@@ -75,6 +75,9 @@ class Sistem extends BaseController
                         sendWa($values->no_telp, $message);
                     }
                 }
+            } else if($result->status == 400){
+                $message = "Halo kak, berikut informasi dari resi kaka :\r\nKeterangan : " . $result->message;
+                sendWa($values->no_telp, $message);
             }
         }
 
