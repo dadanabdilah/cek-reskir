@@ -42,11 +42,13 @@ class Resi extends ResourceController
     public function show($id = null)
     {
         $data = [
-            'Resi' => $this->model->first($id),
+            'Resi' => $this->model->where('resi_id', $id)->first(),
             'Resis' => $this->model->select('tbl_resi.*, tbl_resi_activity.*, tbl_produk.kode_barang, tbl_produk.nama_barang,')
                                     ->join('tbl_resi_activity', 'tbl_resi_activity.resi_id = tbl_resi.resi_id')
                                     ->join('tbl_produk', 'tbl_produk.kode_barang = tbl_resi.kode_barang')
-                                    ->where('tbl_resi.resi_id',$id)->orderBy('date DESC')->findAll(),
+                                    ->where('tbl_resi.resi_id',$id)
+                                    ->where('tbl_resi_activity.resi_id',$id)
+                                    ->orderBy('date DESC')->findAll(),
             'title' => "Data Resi",
             'sub_title' => "Detail Resi",
         ];

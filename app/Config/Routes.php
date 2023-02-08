@@ -44,6 +44,7 @@ $routes->group('admin', ["namespace" => "App\Controllers\Admin"], static functio
     $routes->resource("produk", ['except' => 'show, new, edit', 'delete']);
     
     $routes->get('resi/delete/(:num)', 'Resi::delete/$1');
+    // $routes->get('resi/show/(:num)', 'Resi::show/$1');
     $routes->resource("resi", ['except' => 'delete']);
     
     $routes->get('ongkir', 'Ongkir::index');
