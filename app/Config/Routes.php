@@ -11,7 +11,7 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Auth');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -19,7 +19,7 @@ $routes->set404Override();
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-// $routes->setAutoRoute(false);
+$routes->setAutoRoute(true);
 
 /*
  * --------------------------------------------------------------------
@@ -29,8 +29,20 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Auth::index');
+$routes->get('/dashboard', 'Dashboard::index');
 
+
+$routes->get('/admin/delete/(:num)', 'Admin::delete/$1');
+$routes->resource("admin", ['except' => 'show, new, edit', 'delete']);
+
+$routes->get('/produk/delete/(:num)', 'Produk::delete/$1');
+$routes->resource("produk", ['except' => 'show, new, edit', 'delete']);
+
+$routes->get('/resi/delete/(:num)', 'Resi::delete/$1');
+$routes->resource("resi", ['except' => 'show, new, edit', 'delete']);
+
+$routes->get('/ongkir', 'Ongkir::index');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
