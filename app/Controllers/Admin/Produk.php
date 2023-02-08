@@ -80,7 +80,7 @@ class Produk extends ResourceController
             'nama_barang' => $this->request->getPost('nama_barang'),
             'berat'     => $this->request->getPost('berat'),
             'harga'     => $this->request->getPost('harga'),
-            'admin_id'    => 1,
+            'admin_id'    => session('admin_id'),
         ];
 
         $result = $this->model->save($request);
