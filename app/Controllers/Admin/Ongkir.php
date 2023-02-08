@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
-
+namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
+
 use App\Models\ResiModel;
 use App\Models\ProdukModel;
 
@@ -114,7 +114,6 @@ class Ongkir extends BaseController
         curl_close($curl);
 
         $response = (object) json_decode($json);
-        // dd($response->rajaongkir->results[0]->name);
         $html = "";
         if(count($response->rajaongkir->results[0]->costs) > 0){
             foreach ($response->rajaongkir->results[0]->costs as $key => $value) {

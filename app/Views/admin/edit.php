@@ -22,7 +22,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="<?= site_url('admin/' . $Admin->admin_id ) ?>">
+            <form method="POST" action="<?= site_url('admin/admin/' . $Admin->admin_id ) ?>">
                 <?= csrf_field() ?>
                 <input type="hidden" name="_method" value="PUT" />
                 <div class="card-body">

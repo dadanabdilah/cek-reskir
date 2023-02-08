@@ -22,7 +22,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="<?= site_url('ongkir') ?>">
+            <form method="POST" action="<?= site_url('admin/ongkir') ?>">
                 <div class="card-body">
                     <?php if (session('error') !== null) : ?>
                         <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
@@ -148,7 +148,7 @@ $(document).ready(function () {
 
         if (provinceId) {
             $.ajax({
-                url: '<?= base_url() ?>/ongkir/city/' + provinceId,
+                url: '<?= base_url() ?>/admin/ongkir/city/' + provinceId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -168,7 +168,7 @@ $(document).ready(function () {
 
         if (provinceId) {
             $.ajax({
-                url: '<?= base_url() ?>/ongkir/city/' + provinceId,
+                url: '<?= base_url() ?>/admin/ongkir/city/' + provinceId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -189,7 +189,7 @@ $(document).ready(function () {
 
         if (cityId) {
             $.ajax({
-                url: '<?= base_url() ?>/ongkir/subdis/' + cityId,
+                url: '<?= base_url() ?>/admin/ongkir/subdis/' + cityId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -209,7 +209,7 @@ $(document).ready(function () {
 
         if (cityId) {
             $.ajax({
-                url: '<?= base_url() ?>/ongkir/subdis/' + cityId,
+                url: '<?= base_url() ?>/admin/ongkir/subdis/' + cityId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -233,12 +233,15 @@ $(document).ready(function () {
 
         if (originId && desId && weight && courier) {
             $.ajax({
-                url: '<?= base_url() ?>/ongkir/cek/' + originId + "/" + desId + "/"+ weight + "/" + courier ,
+                url: '<?= base_url() ?>/admin/ongkir/cek/' + originId + "/" + desId + "/"+ weight + "/" + courier ,
                 type: 'GET',
                 dataType: 'html',
                 success: function (data) {
-                    $('#result_cost').html(data)
-                    console.log(data);
+                    if(data == ""){
+                        $('#result_cost').html("Kurir tidak mendukung!")
+                    } else {
+                        $('#result_cost').html(data)
+                    }
                 }
             });
         } else {

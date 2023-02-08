@@ -19,7 +19,7 @@ $routes->set404Override();
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-$routes->setAutoRoute(true);
+$routes->setAutoRoute(false);
 
 /*
  * --------------------------------------------------------------------
@@ -30,19 +30,27 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Auth::index');
-$routes->get('/dashboard', 'Dashboard::index');
+$routes->post('/', 'Auth::index');
+$routes->get('admin/logout', 'Auth::logout');
+
+$routes->group('admin', ["namespace" => "App\Controllers\Admin"], static function ($routes) {
+    $routes->get('dashboard', 'Dashboard::index');
 
 
-$routes->get('/admin/delete/(:num)', 'Admin::delete/$1');
-$routes->resource("admin", ['except' => 'show, new, edit', 'delete']);
-
-$routes->get('/produk/delete/(:num)', 'Produk::delete/$1');
-$routes->resource("produk", ['except' => 'show, new, edit', 'delete']);
-
-$routes->get('/resi/delete/(:num)', 'Resi::delete/$1');
-$routes->resource("resi", ['except' => 'show, new, edit', 'delete']);
-
-$routes->get('/ongkir', 'Ongkir::index');
+    $routes->get('admin/delete/(:num)', 'Admin::delete/$1');
+    $routes->resource("admin", ['except' => 'show, new, edit', 'delete']);
+    
+    $routes->get('produk/delete/(:num)', 'Produk::delete/$1');
+    $routes->resource("produk", ['except' => 'show, new, edit', 'delete']);
+    
+    $routes->get('resi/delete/(:num)', 'Resi::delete/$1');
+    $routes->resource("resi", ['except' => 'show, new, edit', 'delete']);
+    
+    $routes->get('ongkir', 'Ongkir::index');
+    $routes->get('ongkir/city/(:num)', 'Ongkir::city/$1');
+    $routes->get('ongkir/subdis/(:num)', 'Ongkir::subdis/$1');
+    $routes->get('ongkir/cek/(:any)', 'Ongkir::cek/$1/$1/$1/$1');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

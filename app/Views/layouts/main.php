@@ -84,7 +84,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="<?= site_url('dashboard') ?>" class="nav-link">
+                        <a href="<?= site_url('admin/dashboard') ?>" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -92,7 +92,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= site_url('admin') ?>" class="nav-link">
+                        <a href="<?= site_url('admin/admin') ?>" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Data Admin
@@ -100,7 +100,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= site_url('produk') ?>" class="nav-link">
+                        <a href="<?= site_url('admin/produk') ?>" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Data Produk
@@ -108,7 +108,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= site_url('resi') ?>" class="nav-link">
+                        <a href="<?= site_url('admin/resi') ?>" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Data Resi
@@ -116,7 +116,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= site_url('ongkir') ?>" class="nav-link">
+                        <a href="<?= site_url('admin/ongkir') ?>" class="nav-link">
                         <i class="nav-icon fas fa-search"></i>
                         <p>
                             Cek Ongkir
@@ -124,7 +124,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= site_url('auth/logout') ?>" class="nav-link">
+                        <a href="<?= site_url('admin/logout') ?>" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Logout

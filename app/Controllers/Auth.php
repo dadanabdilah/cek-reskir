@@ -30,7 +30,7 @@ class Auth extends BaseController
 							'sudah_login'  => TRUE
 						];
 						session()->set($session_data);
-						return redirect()->to(site_url('dashboard'));
+						return redirect()->to(site_url('admin/dashboard'));
 						
 					} else {
 						$flash_data = [

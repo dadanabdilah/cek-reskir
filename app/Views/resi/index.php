@@ -19,7 +19,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= base_url('resi/new') ?>">Tambah</a></h3>
+                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= base_url('admin/resi/new') ?>">Tambah</a></h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -56,9 +56,9 @@
                             <td>Rp. <?= number_format($value->harga, 0,'.',',') ?></td>
                             <td>
                                <div class="d-flex">
-                                    <a class="btn btn-info btn-sm mr-2" href="<?= site_url('resi/show/' . $value->resi_id) ?>">Detail</a>
-                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('resi/edit/' . $value->resi_id) ?>">Edit</a>
-                                    <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('resi/delete/' . $value->resi_id) ?>">Hapus</a>
+                                    <a class="btn btn-info btn-sm mr-2" href="<?= site_url('admin/resi/show/' . $value->resi_id) ?>">Detail</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/resi/edit/' . $value->resi_id) ?>">Edit</a>
+                                    <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('admin/resi/delete/' . $value->resi_id) ?>">Hapus</a>
                                </div>
                             </td>
                         </tr>

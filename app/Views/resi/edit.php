@@ -19,12 +19,12 @@
         <div class="card card">
             <div class="card-header">
                 <h3 class="card-title">
-                    <a class="btn btn-primary btn-sm" href="<?= site_url('resi') ?>">Kembali</a>
+                    <a class="btn btn-primary btn-sm" href="<?= site_url('admin/resi') ?>">Kembali</a>
                 </h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="<?= site_url('resi/' . $Resi->resi_id ) ?>">
+            <form method="POST" action="<?= site_url('admin/resi/' . $Resi->resi_id ) ?>">
                 <?= csrf_field() ?>
                 <input type="hidden" name="_method" value="PUT" />
                 <div class="card-body">

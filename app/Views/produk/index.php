@@ -19,7 +19,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= base_url('produk/new') ?>">Tambah</a></h3>
+                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= base_url('admin/produk/new') ?>">Tambah</a></h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -54,8 +54,8 @@
                             <td>Rp. <?= number_format($value->harga, 0,'.',',') ?></td>
                             <td>
                                <div class="d-flex">
-                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('produk/edit/' . $value->id) ?>">Edit</a>
-                                    <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('produk/delete/' . $value->id) ?>">Hapus</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/produk/edit/' . $value->id) ?>">Edit</a>
+                                    <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('admin/produk/delete/' . $value->id) ?>">Hapus</a>
                                </div>
                             </td>
                         </tr>

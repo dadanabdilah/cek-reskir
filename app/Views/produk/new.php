@@ -22,7 +22,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="<?= site_url('produk') ?>">
+            <form method="POST" action="<?= site_url('admin/produk') ?>">
                 <div class="card-body">
                     <?php if (session('error') !== null) : ?>
                         <div class="alert alert-danger" role="alert"><?= session('error') ?></div>

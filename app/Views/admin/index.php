@@ -19,7 +19,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= base_url('admin/new') ?>">Tambah</a></h3>
+                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= base_url('admin/admin/new') ?>">Tambah</a></h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -48,8 +48,8 @@
                             <td><?= $value->role ?></td>
                             <td>
                                <div class="d-flex">
-                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/edit/' . $value->admin_id) ?>">Edit</a>
-                                    <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('admin/delete/' . $value->admin_id) ?>">Hapus</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/admin/edit/' . $value->admin_id) ?>">Edit</a>
+                                    <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('admin/admin/delete/' . $value->admin_id) ?>">Hapus</a>
                                </div>
                             </td>
                         </tr>
