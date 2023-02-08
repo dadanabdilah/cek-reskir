@@ -18,7 +18,9 @@
         <!-- general form elements -->
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title"></h3>
+                <h3 class="card-title">
+                    <a class="btn btn-primary btn-sm" href="<?= site_url('admin/admin') ?>">Kembali</a>
+                </h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->

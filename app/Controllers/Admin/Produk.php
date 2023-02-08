@@ -91,7 +91,7 @@ class Produk extends ResourceController
             session()->setFlashdata('error', 'Tambah Data Tidak Berhasil');
         }
         
-        return redirect()->to('produk');
+        return redirect()->to('admin/produk');
     }
     
     /**
@@ -142,7 +142,7 @@ class Produk extends ResourceController
             session()->setFlashdata('error', 'Update Data Tidak Berhasil');
         }
 
-        return redirect()->to('produk');
+        return redirect()->to('admin/produk');
     }
 
     /**
@@ -158,7 +158,7 @@ class Produk extends ResourceController
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
         }
 
-        return redirect()->to('produk');
+        return redirect()->to('admin/produk');
     }
 
 

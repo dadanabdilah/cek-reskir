@@ -88,7 +88,7 @@ class Admin extends ResourceController
             session()->setFlashdata('error', 'Tambah Data Tidak Berhasil');
         }
         
-        return redirect()->to('admin');
+        return redirect()->to('admin/admin');
     }
     
     /**
@@ -143,7 +143,7 @@ class Admin extends ResourceController
             session()->setFlashdata('error', 'Update Data Tidak Berhasil');
         }
 
-        return redirect()->to('admin');
+        return redirect()->to('admin/admin');
     }
 
     /**
@@ -153,13 +153,19 @@ class Admin extends ResourceController
      */
     public function delete($id = null)
     {
+        $Admin = $this->model->first($id);
+        if($Admin->role == "Admin"){
+            session()->setFlashdata('error', 'Data Ini Tidak Bisa Dihapus!');
+            return redirect()->to('admin/admin');
+        }
+        
         if ($this->model->delete($id)) {
             session()->setFlashdata('message', 'Hapus Data Berhasil');
         } else {
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
         }
 
-        return redirect()->to('admin');
+        return redirect()->to('admin/admin');
     }
 
 

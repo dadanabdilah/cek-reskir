@@ -109,7 +109,7 @@ class Resi extends ResourceController
             session()->setFlashdata('error', 'Tambah Data Tidak Berhasil');
         }
         
-        return redirect()->to('resi');
+        return redirect()->to('admin/resi');
     }
     
     /**
@@ -167,7 +167,7 @@ class Resi extends ResourceController
             session()->setFlashdata('error', 'Update Data Tidak Berhasil');
         }
 
-        return redirect()->to('resi');
+        return redirect()->to('admin/resi');
     }
 
     /**
@@ -183,6 +183,6 @@ class Resi extends ResourceController
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
         }
 
-        return redirect()->to('resi');
+        return redirect()->to('admin/resi');
     }
 }

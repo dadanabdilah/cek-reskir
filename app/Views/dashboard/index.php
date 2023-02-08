@@ -17,7 +17,13 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        
+        <?php if (session('error') !== null) : ?>
+            <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+        <?php endif ?>
+
+        <?php if (session('message') !== null) : ?>
+            <div class="alert alert-success" role="alert"><?= session('message') ?></div>
+        <?php endif ?>    
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
