@@ -102,7 +102,7 @@ class Produk extends ResourceController
     public function edit($id = null)
     {
         $data = [
-            'Produk' => $this->model->first($id),
+            'Produk' => $this->model->where('id', $id)->first(),
             'title' => "Data Produk",
             'sub_title' => "Edit Data Produk",
         ];

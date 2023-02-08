@@ -49,7 +49,7 @@
                         <select name="kode_barang" class="form-control">
                         <option selected disabled>Pilih...</option>
                         <?php foreach ($Produk as $key => $value) { ?>
-                          <option value="<?= $value->kode_barang ?>"><?= $value->nama_barang ?></option>
+                          <option data-harga="<?= $value->harga ?>" value="<?= $value->kode_barang ?>"><?= $value->nama_barang ?></option>
                         <?php } ?>
                         </select>
                     </div>
@@ -83,3 +83,7 @@
 </section>
 <!-- /.content -->
 <?= $this->endSection() ?>
+
+<?= $this->section('js') ?>
+<?= $this->endSection() ?>
+

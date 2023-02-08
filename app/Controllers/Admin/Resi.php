@@ -123,7 +123,7 @@ class Resi extends ResourceController
     {
         $data = [
             'Produk' => $this->Produk->findAll(),
-            'Resi' => $this->model->first($id),
+            'Resi' => $this->model->where('resi_id', $id)->first(),
             'title' => "Data Resi",
             'sub_title' => "Edit Data Resi",
         ];
