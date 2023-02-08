@@ -48,7 +48,7 @@
                             <td><?= $value->role ?></td>
                             <td>
                                <div class="d-flex">
-                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/admin/edit/' . $value->admin_id) ?>">Edit</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/admin/edit/' . $value->admin_id) ?>/edit">Edit</a>
                                     <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('admin/admin/delete/' . $value->admin_id) ?>">Hapus</a>
                                </div>
                             </td>

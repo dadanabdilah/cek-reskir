@@ -16,7 +16,7 @@
 <section class="content">
     <div class="container-fluid">
         <!-- general form elements -->
-        <div class="card card-primary">
+        <div class="card card">
             <div class="card-header">
                 <h3 class="card-title"></h3>
             </div>
