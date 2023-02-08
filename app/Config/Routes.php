@@ -31,6 +31,7 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 $routes->get('/', 'Auth::index');
 $routes->post('/', 'Auth::index');
+$routes->get('sistem/update_resi', 'Sistem::update_resi');
 $routes->get('admin/logout', 'Auth::logout');
 
 $routes->group('admin', ["namespace" => "App\Controllers\Admin"], static function ($routes) {
@@ -44,7 +45,6 @@ $routes->group('admin', ["namespace" => "App\Controllers\Admin"], static functio
     $routes->resource("produk", ['except' => 'show, new, edit', 'delete']);
     
     $routes->get('resi/delete/(:num)', 'Resi::delete/$1');
-    // $routes->get('resi/show/(:num)', 'Resi::show/$1');
     $routes->resource("resi", ['except' => 'delete']);
     
     $routes->get('ongkir', 'Ongkir::index');
