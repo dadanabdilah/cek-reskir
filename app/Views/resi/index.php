@@ -57,7 +57,7 @@
                             <td>
                                <div class="d-flex">
                                     <a class="btn btn-info btn-sm mr-2" href="<?= site_url('admin/resi/' . $value->resi_id) ?>">Detail</a>
-                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/resi/edit/' . $value->resi_id) ?>/edit">Edit</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/resi/' . $value->resi_id) ?>/edit">Edit</a>
                                     <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('admin/resi/delete/' . $value->resi_id) ?>">Hapus</a>
                                </div>
                             </td>

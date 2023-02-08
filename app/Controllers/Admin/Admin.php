@@ -99,7 +99,7 @@ class Admin extends ResourceController
     public function edit($id = null)
     {
         $data = [
-            'Admin' => $this->model->where('admin',$id)->first(),
+            'Admin' => $this->model->where('admin_id',$id)->first(),
             'title' => "Data Admin",
             'sub_title' => "Edit Data Admin",
         ];
