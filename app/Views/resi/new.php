@@ -46,12 +46,16 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Barang</label>
-                        <select name="kode_barang" class="form-control">
+                        <select id="kode_barang" name="kode_barang" class="form-control">
                         <option selected disabled>Pilih...</option>
                         <?php foreach ($Produk as $key => $value) { ?>
                           <option data-harga="<?= $value->harga ?>" value="<?= $value->kode_barang ?>"><?= $value->nama_barang ?></option>
                         <?php } ?>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Harga</label>
+                        <input type="number" class="form-control" id="harga" name="harga">
                     </div>
                     <div class="form-group">
                         <label>Expedisi</label>
@@ -61,10 +65,6 @@
                                 <option value="<?= $key ?>"><?= $value ?></option>
                             <?php } ?>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Harga</label>
-                        <input type="number" class="form-control" id="harga" name="harga">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Tanggal Pencatatan</label>
@@ -85,5 +85,11 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js') ?>
+<script>
+    $('select[name="kode_barang"]').on('change', function () {
+        let barang = $('#kode_barang');
+        $('#harga').val(barang.find(':selected').data('harga'));
+    });
+</script>
 <?= $this->endSection() ?>
 

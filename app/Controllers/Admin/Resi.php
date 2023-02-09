@@ -5,6 +5,8 @@ namespace App\Controllers\Admin;
 use CodeIgniter\RESTful\ResourceController;
 
 use App\Models\ResiModel;
+use App\Models\ResiActivityModel;
+use App\Models\ResiNotifModel;
 use App\Models\ProdukModel;
 
 class Resi extends ResourceController
@@ -16,6 +18,8 @@ class Resi extends ResourceController
         helper(['my_helper']);
         $this->Resi = new ResiModel;
         $this->Produk = new ProdukModel;
+        $this->ResiAct = new ResiActivityModel;
+        $this->ResiNotif = new ResiNotifModel;
     }
 
     /**
@@ -177,9 +181,19 @@ class Resi extends ResourceController
      *
      * @return mixed
      */
-    public function delete($id = null)
+    public function delete($id = 4)
     {
         if ($this->model->delete($id)) {
+            $act = $this->ResiAct->where('resi_id', $id)->countAllResults();
+            if($act > 0 ){
+                $this->ResiAct->where('resi_id', $id)->delete();
+            }
+            
+            $rn = $this->ResiNotif->where('resi_id', $id)->countAllResults();
+            if($rn > 0){
+                $this->ResiNotif->where('resi_id', $id)->delete();
+            }
+
             session()->setFlashdata('message', 'Hapus Data Berhasil');
         } else {
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');

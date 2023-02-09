@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers;
+
 use App\Controllers\BaseController;
 
 use App\Models\ResiModel;
@@ -9,6 +10,7 @@ use App\Models\ProdukModel;
 class Ongkir extends BaseController
 {
     protected $raja_key = "c77bd09e66015ea8b62e826ab0c71cca";
+    
     function __construct(){
         helper(['my_helper']);
         $this->Resi = new ResiModel;

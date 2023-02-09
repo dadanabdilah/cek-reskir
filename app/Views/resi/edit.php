@@ -50,12 +50,16 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Barang</label>
-                        <select name="kode_barang" class="form-control">
-                        <option selected disabled>Pilih...</option>
-                        <?php foreach ($Produk as $key => $value) { ?>
-                          <option value="<?= $value->kode_barang ?>" <?= $Resi->kode_barang == $value->kode_barang ? "selected" : "" ; ?> ><?= $value->nama_barang ?></option>
-                        <?php } ?>
+                        <select id="kode_barang" name="kode_barang" class="form-control">
+                            <option selected disabled>Pilih...</option>
+                            <?php foreach ($Produk as $key => $value) { ?>
+                            <option data-harga="<?= $value->harga ?>" value="<?= $value->kode_barang ?>" <?= $Resi->kode_barang == $value->kode_barang ? "selected" : "" ; ?> ><?= $value->nama_barang ?></option>
+                            <?php } ?>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Harga</label>
+                        <input type="number" class="form-control" value="<?= $Resi->harga ?>" id="harga" name="harga">
                     </div>
                     <div class="form-group">
                         <label>Expedisi</label>
@@ -65,10 +69,6 @@
                                 <option value="<?= $key ?>" <?= $Resi->ekspedisi == $key ? "selected" : "" ; ?> ><?= $value ?></option>
                             <?php } ?>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Harga</label>
-                        <input type="number" class="form-control" value="<?= $Resi->harga ?>" id="harga" name="harga">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Tanggal Pencatatan</label>
@@ -86,4 +86,13 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+<?= $this->endSection() ?>
+
+<?= $this->section('js') ?>
+<script>
+    $('select[name="kode_barang"]').on('change', function () {
+        let barang = $('#kode_barang');
+        $('#harga').val(barang.find(':selected').data('harga'));
+    });
+</script>
 <?= $this->endSection() ?>
