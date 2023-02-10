@@ -153,7 +153,7 @@ class Admin extends ResourceController
      */
     public function delete($id = null)
     {
-        $Admin = $this->model->first($id);
+        $Admin = $this->model->where('admin_id', $id)->first();
         if($Admin->role == "Admin"){
             session()->setFlashdata('error', 'Data Ini Tidak Bisa Dihapus!');
             return redirect()->to('admin/admin');

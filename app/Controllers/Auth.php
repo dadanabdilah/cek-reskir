@@ -20,7 +20,6 @@ class Auth extends BaseController
 			
 			if ($this->validate($aturan)) {
 				$dataUser = $this->Admin->where('username', $this->request->getPost('username'))->first();
-				dd($dataUser);
 				if (isset($dataUser)) {
 					// jika password benar
 					if ($dataUser->password == md5($this->request->getPost('password')) ) {
