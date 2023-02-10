@@ -26,6 +26,7 @@
         <?php endif ?>
         
         <div class="row">
+          <?php if(session('role') == "Manager") { ?>
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
@@ -39,6 +40,7 @@
               </div>
             </div>
           </div>
+          <?php } ?>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -54,6 +56,7 @@
             </div>
           </div>
           <!-- ./col -->
+          <?php if(session('role') == "Manager") { ?>
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
@@ -67,6 +70,7 @@
               </div>
             </div>
           </div>
+          <?php } ?>
         </div>
     </div><!-- /.container-fluid -->
 </section>

@@ -91,6 +91,7 @@
                         </p>
                         </a>
                     </li>
+                    <?php if(session('role') == "Manager") { ?>
                     <li class="nav-item">
                         <a href="<?= site_url('admin/admin') ?>" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
@@ -107,19 +108,12 @@
                         </p>
                         </a>
                     </li>
+                    <?php } ?>
                     <li class="nav-item">
                         <a href="<?= site_url('admin/resi') ?>" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Data Resi
-                        </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<?= site_url('admin/ongkir') ?>" class="nav-link">
-                        <i class="nav-icon fas fa-search"></i>
-                        <p>
-                            Cek Ongkir
                         </p>
                         </a>
                     </li>

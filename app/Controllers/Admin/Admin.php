@@ -76,7 +76,7 @@ class Admin extends ResourceController
         $request = [
             // 'admin_id' => $this->generateCode(),
             'username' => $this->request->getPost('username'),
-            'password' => $this->request->getPost('password'),
+            'password' => md5($this->request->getPost('password')),
             'role'     => $this->request->getPost('role'),
         ];
 
