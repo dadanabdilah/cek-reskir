@@ -39,10 +39,10 @@
                     <?php endif ?>
 
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Provinsi Asal</label>
-                                <select id="province_origin" name="province_origin" class="form-control">
+                                <select id="province_origin" name="province_origin" class="form-control select2">
                                     <option selected disabled>Pilih...</option>
                                     <?php foreach ($Provinsi->rajaongkir->results as $key => $value) { ?>
                                         <option value="<?= $value->province_id ?>"><?= $value->province ?></option>
@@ -51,21 +51,21 @@
                             </div>
                             <div class="form-group">
                                 <label>Kota Asal</label>
-                                <select id="city_origin" name="city_origin" class="form-control">
+                                <select id="city_origin" name="city_origin" class="form-control select2">
                                     <option selected disabled>Pilih...</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Kecamatan Asal</label>
-                                <select id="subdis_origin" name="subdis_origin" class="form-control">
+                                <select id="subdis_origin" name="subdis_origin" class="form-control select2">
                                     <option selected disabled>Pilih...</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Provinsi Tujuan</label>
-                                <select id="province_destination" name="province_destination" class="form-control">
+                                <select id="province_destination" name="province_destination" class="form-control select2">
                                     <option selected disabled>Pilih...</option>
                                     <?php foreach ($Provinsi->rajaongkir->results as $key => $value) { ?>
                                         <option value="<?= $value->province_id ?>"><?= $value->province ?></option>
@@ -74,33 +74,40 @@
                             </div>
                             <div class="form-group">
                                 <label>Kota Tujuan</label>
-                                <select id="city_destination" name="city_destination" class="form-control">
+                                <select id="city_destination" name="city_destination" class="form-control select2">
                                     <option selected disabled>Pilih...</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Kecamatan Tujuan</label>
-                                <select id="subdis_destination" name="subdis_destination" class="form-control">
+                                <select id="subdis_destination" name="subdis_destination" class="form-control select2">
                                     <option selected disabled>Pilih...</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Produk</label>
-                                <select id="kode_barang" name="kode_barang" class="form-control">
+                                <select id="kode_barang" name="kode_barang" class="form-control select2">
                                     <option selected disabled>Pilih...</option>
                                     <?php foreach ($Produk as $key => $value) { ?>
-                                        <option berat="<?= $value->berat ?>" value="<?= $value->berat ?>"><?= $value->nama_barang ?></option>
+                                        <option data-berat="<?= $value->berat ?>" value="<?= $value->kode_barang ?>"><?= $value->nama_barang ?></option>
                                     <?php } ?>
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="weight" class="form-label">Quantity</label>
+                                <input type="number" id="quantity" name="quantity" class="form-control" min="1">
                             </div>
                             <div class="mb-3">
                                 <label for="weight" class="form-label">Berat (g)</label>
                                 <input type="number" id="weight" name="weight" class="form-control" min="1">
                             </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Kurir</label>
                                 <select id="courier" name="courier" class="form-control">
@@ -110,7 +117,17 @@
                                 <?php } ?>
                                 </select>
                             </div>
+                            <button type="button" id="btn_cek" class="btn btn-primary btn-block">Cek</button>
                         </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div id="temp_copy"></div>
+                            <div id="copy_text"></div>
+                            
+                        </div>
+
                     </div>
 
                     <div id="result" class="mt-3">
@@ -130,7 +147,6 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" id="btn_cek" class="btn btn-primary">Cek</button>
                 </div>
             </form>
         </div>
@@ -143,10 +159,18 @@
 <?= $this->section('js') ?>
 <script>
 $(document).ready(function () {
+    $('.select2').select2()
 
     $('select[name="kode_barang"]').on('change', function () {
-        const berat = $("#kode_barang").val()
-        $("#weight").val(berat)
+        const barang = $('#kode_barang');
+        $('#weight').val(barang.find(':selected').data('berat'));
+        $("#quantity").val(1)
+    });
+
+    $('#quantity').on('change', function () {
+        const oldQty = $(this).val()
+        const weight = $("#weight").val()
+        $("#weight").val(oldQty * weight)
     });
 
     $('select[name="province_origin"]').on('change', function () {
@@ -235,18 +259,24 @@ $(document).ready(function () {
         let originId = $('#subdis_origin').val();
         let desId = $('#subdis_destination').val();
         let weight = $('#weight').val();
+        let kode_barang = $('#kode_barang').val();
         let courier = $('#courier').val();
+        let quantity = $('#quantity').val();
 
         if (originId && desId && weight && courier) {
             $.ajax({
-                url: '<?= base_url() ?>/ongkir/cek/' + originId + "/" + desId + "/"+ weight + "/" + courier ,
+                url: '<?= base_url() ?>/ongkir/cek/' + originId + "/" + desId + "/"+ weight + "/" + courier + "/" + quantity + "/" + kode_barang,
                 type: 'GET',
-                dataType: 'html',
+                dataType: 'json',
                 success: function (data) {
                     if(data == ""){
                         $('#result_cost').html("Kurir tidak mendukung!")
                     } else {
-                        $('#result_cost').html(data)
+                        $('#result_cost').html(data.result)
+                        $.each(data, function(i, item) {
+                            $('#copy_text').html(data.copy_text)
+                            console.log(data[i]);
+                        });
                     }
                 }
             });
@@ -254,6 +284,21 @@ $(document).ready(function () {
             alert("Semua data harus diisi.")
         }
     });
+
+    // $('.btn_copy').on('click', function () {
+    //     const no = $('.btn_copy').data('no');
+    //     console.log(no)
+    // });
+
+    function copyToClipboard(element) {
+        var $temp = $("#temp_copy");
+        $("body").append($temp);
+        $temp.val($(element).val()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+   
 });
 </script>
 <?= $this->endSection() ?>

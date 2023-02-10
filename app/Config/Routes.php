@@ -37,7 +37,7 @@ $routes->get('admin/logout', 'Auth::logout');
 $routes->get('ongkir', 'Ongkir::index');
 $routes->get('ongkir/city/(:num)', 'Ongkir::city/$1');
 $routes->get('ongkir/subdis/(:num)', 'Ongkir::subdis/$1');
-$routes->get('ongkir/cek/(:any)', 'Ongkir::cek/$1/$1/$1/$1');
+$routes->get('ongkir/cek/(:any)', 'Ongkir::cek/$1/$1/$1/$1/$1/$1');
 
 $routes->group('admin', ["namespace" => "App\Controllers\Admin"], static function ($routes) {
     $routes->get('dashboard', 'Dashboard::index');
