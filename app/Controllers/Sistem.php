@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\ResiModel;
 use App\Models\ResiActivityModel;
 use App\Models\ResiNotifModel;
+use App\Models\ProdukModel;
 
 class Sistem extends BaseController
 {
@@ -14,6 +15,7 @@ class Sistem extends BaseController
         $this->Resi = new ResiModel;
         $this->ResiAct = new ResiActivityModel;
         $this->ResiNotif = new ResiNotifModel;
+        $this->Produk = new ProdukModel;
     }
 
     public function update_resi()
@@ -91,7 +93,16 @@ class Sistem extends BaseController
                     'deskripsi' => $deskripsi,
                 ];
 
-                $message = "Halo kak, berikut informasi dari resi kaka :\r\nKeterangan : " . $deskripsi;
+                $message = "Hallo kak, ini untuk Update resi nya yaa\r\n";
+                $message .= "\r\n*-Nama : " . $values->nama_customer;
+                // $message .= "\r\nAlamat : yyyyy";
+                $message .= "\r\nPembelian : " . $this->Produk->where('kode_barang', $values->kode_barang)->first()->nama_barang;
+                $message .= "\r\nNo resi : " . $values->no_resi;
+                $message .= "\r\nKeterangan : " . $deskripsi;
+                $message .= "\r\nUpdate Resi: Kurir telah pick up paket*";
+                $message .= "\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+
+                // $message = "Halo kak, berikut informasi dari resi kaka :\r\nKeterangan : " . $deskripsi;
                 
                 if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
                     $this->ResiNotif->save($data);
