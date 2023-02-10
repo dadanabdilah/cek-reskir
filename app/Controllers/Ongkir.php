@@ -143,7 +143,7 @@ class Ongkir extends BaseController
                 $copy_text .= "\r\nOngkir  : " . $qty . " x " . $weight . "(g) = Rp. " . number_format($value->cost[0]->value, 2, ',','.');
                 $copy_text .= "\r\nTotal Harga : Rp. " . number_format($total_harga, 2, ',','.') ;
                 $copy_text .= "</textarea>";
-                $copy_text .= " <button type='button' onclick='copyToClipboard('#copy_text".$no."')' class='btn btn-success btn_copy mt-2'>Copy Text</button>";
+                $copy_text .= "<button type='button' onclick=\"copyToClipboard('#copy_text".$no."')\" class='btn btn-success btn_copy mt-2'>Copy Text</button>";
                 $copy_text .= "</div>";
 
                 $result_text[] = $copy_text;

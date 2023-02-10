@@ -103,7 +103,6 @@
 
                         
                         <div class="col-md-4">
-                            <div id="temp_copy"></div>
                             <div id="result_text"></div>
                         </div>
                     </div>
@@ -136,6 +135,13 @@
 
 <?= $this->section('js') ?>
 <script>
+function copyToClipboard(params) {
+    let textarea = $(params);
+    textarea.select();
+    document.execCommand('copy');
+    alert("Text berhasil dicopy!");
+}
+
 $(document).ready(function () {
     $('.select2').select2()
 
@@ -253,7 +259,6 @@ $(document).ready(function () {
                         $('#result_cost').html(data.result)
                         $.each(data, function(i, item) {
                             $('#result_text').html(data.copy_text)
-                            console.log(data[i]);
                         });
                     }
                 }
@@ -261,17 +266,7 @@ $(document).ready(function () {
         } else {
             alert("Semua data harus diisi.")
         }
-    });
-
-    function copyToClipboard(element) {
-        var $temp = $("#temp_copy");
-        $("body").append($temp);
-        $temp.val($(element).val()).select();
-        document.execCommand("copy");
-        $temp.remove();
-    }
-
-   
+    });   
 });
 </script>
 <?= $this->endSection() ?>
