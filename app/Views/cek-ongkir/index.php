@@ -1,12 +1,18 @@
-<?= $this->extend('layouts/main') ?>
+<?= $this->extend('layouts/home') ?>
 <?= $this->section('content') ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0"><?= $sub_title ?></h1>
-            </div><!-- /.col -->
+        <div class="col-sm-6">
+            <h1 class="m-0"><?= $sub_title ?></h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?= site_url() ?>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<?= site_url('ongkir') ?>">Cek Ongkir</a></li>
+            </ol>
+        </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -14,11 +20,11 @@
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
+    <div class="container">
         <!-- general form elements -->
         <div class="card card">
             <div class="card-header">
-                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= site_url('resi') ?>">Kembali</a></h3>
+                <h3 class="card-title"></h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -33,77 +39,71 @@
                     <?php endif ?>
 
                     <div class="row">
-                        <div class="col-lg-5">
-                            <div class="form-group">
-                                <label>Provinsi Asal</label>
-                                <select id="province_origin" name="province_origin" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                    <?php foreach ($Provinsi->rajaongkir->results as $key => $value) { ?>
-                                        <option value="<?= $value->province_id ?>"><?= $value->province ?></option>
-                                    <?php } ?>
-                                </select>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Provinsi Tujuan</label>
+                                        <select id="province_destination" name="province_destination" class="form-control select2"  style="width: 100%;">
+                                            <option selected disabled>Pilih...</option>
+                                            <?php foreach ($Provinsi->rajaongkir->results as $key => $value) { ?>
+                                                <option value="<?= $value->province_id ?>"><?= $value->province ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kota Tujuan</label>
+                                        <select id="city_destination" name="city_destination" class="form-control select2"  style="width: 100%;">
+                                            <option selected disabled>Pilih...</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kecamatan Tujuan</label>
+                                        <select id="subdis_destination" name="subdis_destination" class="form-control select2"  style="width: 100%;">
+                                            <option selected disabled>Pilih...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Produk</label>
+                                        <select id="kode_barang" name="kode_barang" class="form-control select2"  style="width: 100%;">
+                                            <option selected disabled>Pilih...</option>
+                                            <?php foreach ($Produk as $key => $value) { ?>
+                                                <option data-berat="<?= $value->berat ?>" value="<?= $value->kode_barang ?>"><?= $value->nama_barang ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="weight" class="form-label">Quantity</label>
+                                        <input type="number" id="quantity" name="quantity" class="form-control" min="1">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="weight" class="form-label">Berat (g)</label>
+                                        <input type="number" id="weight" name="weight" class="form-control" min="1">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Kota Asal</label>
-                                <select id="city_origin" name="city_origin" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Kecamatan Asal</label>
-                                <select id="subdis_origin" name="subdis_origin" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                </select>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Kurir</label>
+                                        <select id="courier" name="courier" class="form-control">
+                                            <option selected disabled>Pilih...</option>
+                                            <?php foreach (cek_expedisi() as $key => $value) { ?>
+                                            <option value="<?= $key ?>"><?= $value ?></option>
+                                        <?php } ?>
+                                        </select>
+                                    </div>
+                                    <button type="button" id="btn_cek" class="btn btn-primary btn-block mb-3">Cek</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-5">
-                            <div class="form-group">
-                                <label>Provinsi Tujuan</label>
-                                <select id="province_destination" name="province_destination" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                    <?php foreach ($Provinsi->rajaongkir->results as $key => $value) { ?>
-                                        <option value="<?= $value->province_id ?>"><?= $value->province ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Kota Tujuan</label>
-                                <select id="city_destination" name="city_destination" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Kecamatan Tujuan</label>
-                                <select id="subdis_destination" name="subdis_destination" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label>Produk</label>
-                                <select id="kode_barang" name="kode_barang" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                    <?php foreach ($Produk as $key => $value) { ?>
-                                        <option berat="<?= $value->berat ?>" value="<?= $value->berat ?>"><?= $value->nama_barang ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="weight" class="form-label">Berat (g)</label>
-                                <input type="number" id="weight" name="weight" class="form-control" min="1">
-                            </div>
-                            <div class="form-group">
-                                <label>Kurir</label>
-                                <select id="courier" name="courier" class="form-control">
-                                    <option selected disabled>Pilih...</option>
-                                    <?php foreach (cek_expedisi() as $key => $value) { ?>
-                                    <option value="<?= $key ?>"><?= $value ?></option>
-                                <?php } ?>
-                                </select>
-                            </div>
+
+                        
+                        <div class="col-md-4">
+                            <div id="result_text"></div>
                         </div>
                     </div>
 
@@ -124,7 +124,6 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" id="btn_cek" class="btn btn-primary">Cek</button>
                 </div>
             </form>
         </div>
@@ -136,11 +135,26 @@
 
 <?= $this->section('js') ?>
 <script>
+function copyToClipboard(params) {
+    let textarea = $(params);
+    textarea.select();
+    document.execCommand('copy');
+    alert("Text berhasil dicopy!");
+}
+
 $(document).ready(function () {
+    $('.select2').select2()
 
     $('select[name="kode_barang"]').on('change', function () {
-        const berat = $("#kode_barang").val()
-        $("#weight").val(berat)
+        const barang = $('#kode_barang');
+        $('#weight').val(barang.find(':selected').data('berat'));
+        $("#quantity").val(1)
+    });
+
+    $('#quantity').on('change', function () {
+        const oldQty = $(this).val()
+        const weight = $("#weight").val()
+        $("#weight").val(oldQty * weight)
     });
 
     $('select[name="province_origin"]').on('change', function () {
@@ -148,7 +162,7 @@ $(document).ready(function () {
 
         if (provinceId) {
             $.ajax({
-                url: '<?= base_url() ?>/admin/ongkir/city/' + provinceId,
+                url: '<?= base_url() ?>/ongkir/city/' + provinceId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -168,7 +182,7 @@ $(document).ready(function () {
 
         if (provinceId) {
             $.ajax({
-                url: '<?= base_url() ?>/admin/ongkir/city/' + provinceId,
+                url: '<?= base_url() ?>/ongkir/city/' + provinceId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -189,7 +203,7 @@ $(document).ready(function () {
 
         if (cityId) {
             $.ajax({
-                url: '<?= base_url() ?>/admin/ongkir/subdis/' + cityId,
+                url: '<?= base_url() ?>/ongkir/subdis/' + cityId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -209,7 +223,7 @@ $(document).ready(function () {
 
         if (cityId) {
             $.ajax({
-                url: '<?= base_url() ?>/admin/ongkir/subdis/' + cityId,
+                url: '<?= base_url() ?>/ongkir/subdis/' + cityId,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -226,28 +240,33 @@ $(document).ready(function () {
 
 
     $('#btn_cek').on('click', function () {
-        let originId = $('#subdis_origin').val();
+        let originId = "2964";
         let desId = $('#subdis_destination').val();
         let weight = $('#weight').val();
+        let kode_barang = $('#kode_barang').val();
         let courier = $('#courier').val();
+        let quantity = $('#quantity').val();
 
         if (originId && desId && weight && courier) {
             $.ajax({
-                url: '<?= base_url() ?>/admin/ongkir/cek/' + originId + "/" + desId + "/"+ weight + "/" + courier ,
+                url: '<?= base_url() ?>/ongkir/cek/' + originId + "/" + desId + "/"+ weight + "/" + courier + "/" + quantity + "/" + kode_barang,
                 type: 'GET',
-                dataType: 'html',
+                dataType: 'json',
                 success: function (data) {
                     if(data == ""){
                         $('#result_cost').html("Kurir tidak mendukung!")
                     } else {
-                        $('#result_cost').html(data)
+                        $('#result_cost').html(data.result)
+                        $.each(data, function(i, item) {
+                            $('#result_text').html(data.copy_text)
+                        });
                     }
                 }
             });
         } else {
             alert("Semua data harus diisi.")
         }
-    });
+    });   
 });
 </script>
 <?= $this->endSection() ?>

@@ -91,6 +91,7 @@
                         </p>
                         </a>
                     </li>
+                    <?php if(session('role') == "Manager") { ?>
                     <li class="nav-item">
                         <a href="<?= site_url('admin/admin') ?>" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
@@ -107,19 +108,12 @@
                         </p>
                         </a>
                     </li>
+                    <?php } ?>
                     <li class="nav-item">
                         <a href="<?= site_url('admin/resi') ?>" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Data Resi
-                        </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<?= site_url('admin/ongkir') ?>" class="nav-link">
-                        <i class="nav-icon fas fa-search"></i>
-                        <p>
-                            Cek Ongkir
                         </p>
                         </a>
                     </li>
@@ -145,10 +139,10 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            <strong>Copyright &copy; 2023.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
-            <b>Version</b> 3.2.0
+            <b>Version</b> 1.0.0
             </div>
         </footer>
 

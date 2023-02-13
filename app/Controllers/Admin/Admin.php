@@ -76,7 +76,7 @@ class Admin extends ResourceController
         $request = [
             // 'admin_id' => $this->generateCode(),
             'username' => $this->request->getPost('username'),
-            'password' => $this->request->getPost('password'),
+            'password' => md5($this->request->getPost('password')),
             'role'     => $this->request->getPost('role'),
         ];
 
@@ -88,7 +88,7 @@ class Admin extends ResourceController
             session()->setFlashdata('error', 'Tambah Data Tidak Berhasil');
         }
         
-        return redirect()->to('admin');
+        return redirect()->to('admin/admin');
     }
     
     /**
@@ -99,7 +99,7 @@ class Admin extends ResourceController
     public function edit($id = null)
     {
         $data = [
-            'Admin' => $this->model->first($id),
+            'Admin' => $this->model->where('admin_id',$id)->first(),
             'title' => "Data Admin",
             'sub_title' => "Edit Data Admin",
         ];
@@ -143,7 +143,7 @@ class Admin extends ResourceController
             session()->setFlashdata('error', 'Update Data Tidak Berhasil');
         }
 
-        return redirect()->to('admin');
+        return redirect()->to('admin/admin');
     }
 
     /**
@@ -153,13 +153,19 @@ class Admin extends ResourceController
      */
     public function delete($id = null)
     {
+        $Admin = $this->model->where('admin_id', $id)->first();
+        if($Admin->role == "Manager"){
+            session()->setFlashdata('error', 'Data Ini Tidak Bisa Dihapus!');
+            return redirect()->to('admin/admin');
+        }
+        
         if ($this->model->delete($id)) {
             session()->setFlashdata('message', 'Hapus Data Berhasil');
         } else {
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
         }
 
-        return redirect()->to('admin');
+        return redirect()->to('admin/admin');
     }
 
 

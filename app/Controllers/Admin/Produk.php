@@ -80,7 +80,7 @@ class Produk extends ResourceController
             'nama_barang' => $this->request->getPost('nama_barang'),
             'berat'     => $this->request->getPost('berat'),
             'harga'     => $this->request->getPost('harga'),
-            'admin_id'    => 1,
+            'admin_id'    => session('admin_id'),
         ];
 
         $result = $this->model->save($request);
@@ -91,7 +91,7 @@ class Produk extends ResourceController
             session()->setFlashdata('error', 'Tambah Data Tidak Berhasil');
         }
         
-        return redirect()->to('produk');
+        return redirect()->to('admin/produk');
     }
     
     /**
@@ -102,7 +102,7 @@ class Produk extends ResourceController
     public function edit($id = null)
     {
         $data = [
-            'Produk' => $this->model->first($id),
+            'Produk' => $this->model->where('id', $id)->first(),
             'title' => "Data Produk",
             'sub_title' => "Edit Data Produk",
         ];
@@ -142,7 +142,7 @@ class Produk extends ResourceController
             session()->setFlashdata('error', 'Update Data Tidak Berhasil');
         }
 
-        return redirect()->to('produk');
+        return redirect()->to('admin/produk');
     }
 
     /**
@@ -158,7 +158,7 @@ class Produk extends ResourceController
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
         }
 
-        return redirect()->to('produk');
+        return redirect()->to('admin/produk');
     }
 
 

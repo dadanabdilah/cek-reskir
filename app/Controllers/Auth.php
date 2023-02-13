@@ -31,6 +31,10 @@ class Auth extends BaseController
 							'sudah_login'  => TRUE
 						];
 						session()->set($session_data);
+						$flash_data = [
+							'message' => 'Berhasil Login!',
+						];
+						session()->setFlashdata($flash_data);
 						return redirect()->to(site_url('admin/dashboard'));
 						
 					} else {
@@ -59,6 +63,11 @@ class Auth extends BaseController
     public function logout()
 	{
 		session()->destroy();
+
+		$flash_data = [
+			'message' => 'Berhasil Logout!',
+		];
+		session()->setFlashdata($flash_data);
 		return redirect()->to('/');
 	}
 }

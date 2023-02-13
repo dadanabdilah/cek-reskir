@@ -5,6 +5,8 @@ namespace App\Controllers\Admin;
 use CodeIgniter\RESTful\ResourceController;
 
 use App\Models\ResiModel;
+use App\Models\ResiActivityModel;
+use App\Models\ResiNotifModel;
 use App\Models\ProdukModel;
 
 class Resi extends ResourceController
@@ -16,6 +18,8 @@ class Resi extends ResourceController
         helper(['my_helper']);
         $this->Resi = new ResiModel;
         $this->Produk = new ProdukModel;
+        $this->ResiAct = new ResiActivityModel;
+        $this->ResiNotif = new ResiNotifModel;
     }
 
     /**
@@ -42,11 +46,13 @@ class Resi extends ResourceController
     public function show($id = null)
     {
         $data = [
-            'Resi' => $this->model->first($id),
+            'Resi' => $this->model->where('resi_id', $id)->first(),
             'Resis' => $this->model->select('tbl_resi.*, tbl_resi_activity.*, tbl_produk.kode_barang, tbl_produk.nama_barang,')
                                     ->join('tbl_resi_activity', 'tbl_resi_activity.resi_id = tbl_resi.resi_id')
                                     ->join('tbl_produk', 'tbl_produk.kode_barang = tbl_resi.kode_barang')
-                                    ->where('tbl_resi.resi_id',$id)->orderBy('date DESC')->findAll(),
+                                    ->where('tbl_resi.resi_id',$id)
+                                    ->where('tbl_resi_activity.resi_id',$id)
+                                    ->orderBy('date DESC')->findAll(),
             'title' => "Data Resi",
             'sub_title' => "Detail Resi",
         ];
@@ -98,18 +104,29 @@ class Resi extends ResourceController
             'ekspedisi'     => $this->request->getPost('ekspedisi'),
             'harga'     => $this->request->getPost('harga'),
             'tanggal_pencatatan'  => $this->request->getPost('tanggal_pencatatan'),
-            'admin_id'    => 1,
+            'admin_id'    => session('admin_id'),
         ];
 
         $result = $this->model->save($request);
         
         if ($result) {
+
+            $message = "Hallo Kak, berikut rincian pembelian di *Dewa Spray* yaa\r\n";
+            $message .= "\r\n*-Nama : " . $this->request->getPost('nama_customer');
+            // $message .= "\r\nAlamat : yyyyy";
+            $message .= "\r\nPembelian : " . $this->Produk->where('kode_barang', $this->request->getPost('kode_barang'))->first()->nama_barang;
+            $message .= "\r\nNo resi : " . $this->request->getPost('no_resi');
+            $message .= "\r\nUpdate Resi: Kurir telah pick up paket*";
+            $message .= "\r\nHappy Shoping!\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+            
+            sendWa($this->request->getPost('no_telp'), $message);
+
             session()->setFlashdata('message', 'Tambah Data Berhasil');
         } else {
             session()->setFlashdata('error', 'Tambah Data Tidak Berhasil');
         }
         
-        return redirect()->to('resi');
+        return redirect()->to('admin/resi');
     }
     
     /**
@@ -121,7 +138,7 @@ class Resi extends ResourceController
     {
         $data = [
             'Produk' => $this->Produk->findAll(),
-            'Resi' => $this->model->first($id),
+            'Resi' => $this->model->where('resi_id', $id)->first(),
             'title' => "Data Resi",
             'sub_title' => "Edit Data Resi",
         ];
@@ -167,7 +184,7 @@ class Resi extends ResourceController
             session()->setFlashdata('error', 'Update Data Tidak Berhasil');
         }
 
-        return redirect()->to('resi');
+        return redirect()->to('admin/resi');
     }
 
     /**
@@ -175,14 +192,24 @@ class Resi extends ResourceController
      *
      * @return mixed
      */
-    public function delete($id = null)
+    public function delete($id = 4)
     {
         if ($this->model->delete($id)) {
+            $act = $this->ResiAct->where('resi_id', $id)->countAllResults();
+            if($act > 0 ){
+                $this->ResiAct->where('resi_id', $id)->delete();
+            }
+            
+            $rn = $this->ResiNotif->where('resi_id', $id)->countAllResults();
+            if($rn > 0){
+                $this->ResiNotif->where('resi_id', $id)->delete();
+            }
+
             session()->setFlashdata('message', 'Hapus Data Berhasil');
         } else {
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
         }
 
-        return redirect()->to('resi');
+        return redirect()->to('admin/resi');
     }
 }

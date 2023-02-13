@@ -4,17 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ResiModel extends Model
+class ResiNotifModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'tbl_resi';
-    protected $primaryKey       = 'resi_id';
+    protected $table            = 'tbl_resi_notif';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_customer','no_telp','no_resi','kode_barang','ekspedisi','harga','tanggal_pencatatan', 'status','admin_id'];
+    protected $allowedFields    = ['resi_id','deskripsi'];
 
     // Dates
     protected $useTimestamps = false;

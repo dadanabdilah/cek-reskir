@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ResiModel;
 use App\Models\ResiActivityModel;
+use App\Models\ResiNotifModel;
+use App\Models\ProdukModel;
 
 class Sistem extends BaseController
 {
@@ -12,72 +14,103 @@ class Sistem extends BaseController
         helper(['my_helper']);
         $this->Resi = new ResiModel;
         $this->ResiAct = new ResiActivityModel;
+        $this->ResiNotif = new ResiNotifModel;
+        $this->Produk = new ProdukModel;
     }
 
     public function update_resi()
     {
-        $key  = "a369ab24b20a5b6b639435b30d6c5d79d06e2db65261d0e221484299e38f6148";
+        // SICEPAT DELIVERED,
+        // JNT 1
+        $raja_key  = "c77bd09e66015ea8b62e826ab0c71cca";
 
         $Resi = $this->Resi->findAll();
         $rows = [];
+        
+        if($this->Resi->countAllResults() == 0){
+            die();
+        }
+
         foreach($Resi as $keys => $values){
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://api.binderbyte.com/v1/track?api_key=' . $key . '&courier='. $values->ekspedisi .'&awb=' . $values->no_resi,
+                CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
+                CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_TIMEOUT => 30,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "waybill=". $values->no_resi ."&courier=" . $values->ekspedisi,
+                CURLOPT_HTTPHEADER => array(
+                    "content-type: application/x-www-form-urlencoded",
+                    "key: " . $raja_key . ""
+                ),
             ));
 
             $json = curl_exec($curl);
+            $err = curl_error($curl);
+
             curl_close($curl);
             $result = (object) json_decode($json);
 
-            $rows[] = $result;
+            $rows[] = $result->rajaongkir;
 
-            // {"status":200,"message":"Successfully tracked package","data":{
-            //         "summary":{
-            //             "awb":"004176544749","courier":"SiCepat","service":"REG","status":"DELIVERED","date":"2023-01-29 01:19","desc":"","amount":"6200","weight":"1"},
-            //             "detail":{"origin":"DKI Jakarta","destination":"Kuningan, Kab. Kuningan","shipper":"Toko Mitra Abadi Official","receiver":"Nela Nailus Syarifah"},
-            //             "history":[
-            //                 {"date":"2023-01-31 10:43:00","desc":"PAKET DITERIMA OLEH [NELA - (KEL) KELUARGA SERUMAH]","location":""},
-            //                 {"date":"2023-01-31 09:12:00","desc":"PAKET DIBAWA [SIGESIT - MAMAN RUDIMAN]","location":""},
-            //                 {"date":"2023-01-31 08:52:00","desc":"PAKET TELAH DI TERIMA DI KUNINGAN [KUNINGAN JALAKSANA]","location":""},
-            //                 {"date":"2023-01-30 14:44:00","desc":"PAKET KELUAR DARI CIREBON [CIREBON SORTATION]","location":""},
-            //                 {"date":"2023-01-30 13:34:00","desc":"PAKET TELAH DI TERIMA DI CIREBON [CIREBON SORTATION]","location":""},
-            //                 {"date":"2023-01-30 06:42:00","desc":"PAKET KELUAR DARI JAKARTA UTARA [LINE HAUL DARAT JAKARTA 1]","location":""},
-            //                 {"date":"2023-01-30 04:50:00","desc":"PAKET TELAH DI TERIMA DI JAKARTA UTARA [LINE HAUL DARAT JAKARTA 1]","location":""},
-            //                 {"date":"2023-01-28 23:01:00","desc":"PAKET KELUAR DARI JAKARTA BARAT [JAKBAR MANGGA BESAR]","location":""},
-            //                 {"date":"2023-01-28 18:19:00","desc":"PAKET TELAH DI INPUT (MANIFESTED) DI JAKARTA BARAT [SICEPAT EKSPRES PINANGSIA]","location":""},
-            //                 {"date":"2023-01-28 10:45:00","desc":"TERIMA PERMINTAAN PICK UP DARI [SHOPEE]","location":""}
-            //             ]
-            //         }
-            //     };
+            $result = $result->rajaongkir;
 
-            if($result->status == 200){
-                foreach($result->data->history as $key => $val){
-                    $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->date)->where('description', $val->desc)->findAll();
+            if($result->status->code == 200){
+                foreach($result->result->manifest as $key => $val){
+                    
+                    $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->manifest_date . " " . $val->manifest_time)->where('description', $val->manifest_description)->findAll();
+                    
                     if(count($res_act) == 0 ){
                         $data = [
                             'resi_id' => $values->resi_id,
-                            'date' => $val->date,
-                            'description' => $val->desc,
-                            'location' => $val->location,
+                            'date' => $val->manifest_date . " " . $val->manifest_time,
+                            'description' => $val->manifest_description,
+                            'location' => $val->city_name,
                         ];
         
                         $this->ResiAct->save($data);
-                        $message = "Halo kak, berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $val->date . "\r\nKeterangan : " . $val->desc;
+
+                        $update = [
+                            'resi_id' => $values->resi_id,
+                            'status' => $val->manifest_code,
+                        ];
+
+                        $this->Resi->save($update);
+
+                        $message = "Halo kak, berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $val->manifest_date . " " . $val->manifest_time . "\r\nKeterangan : " . $val->manifest_description;
                         sendWa($values->no_telp, $message);
                     }
+                }
+            } else if($result->status->code == 400){
+                $deskripsi = $result->status->description;
+
+                $data = [
+                    'resi_id' => $values->resi_id,
+                    'deskripsi' => $deskripsi,
+                ];
+
+                $message = "Hallo kak, ini untuk Update resi nya yaa\r\n";
+                $message .= "\r\n*-Nama : " . $values->nama_customer;
+                // $message .= "\r\nAlamat : yyyyy";
+                $message .= "\r\nPembelian : " . $this->Produk->where('kode_barang', $values->kode_barang)->first()->nama_barang;
+                $message .= "\r\nNo resi : " . $values->no_resi;
+                $message .= "\r\nKeterangan : " . $deskripsi;
+                $message .= "\r\nUpdate Resi: Kurir telah pick up paket*";
+                $message .= "\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+
+                // $message = "Halo kak, berikut informasi dari resi kaka :\r\nKeterangan : " . $deskripsi;
+                
+                if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
+                    $this->ResiNotif->save($data);
+                    sendWa($values->no_telp, $message);
                 }
             }
         }
 
-        print_r($rows);
+        dd($rows);
     }
 }
