@@ -12,6 +12,7 @@ class Auth extends BaseController
 
     public function index()
     {
+		// echo "asdasda";
         if($_SERVER["REQUEST_METHOD"] == "POST"){
 			$aturan =[
 				'username' => 'required',
