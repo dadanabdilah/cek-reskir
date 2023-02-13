@@ -30,6 +30,7 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Ongkir::index');
+$routes->get('auth', 'Auth::index');
 $routes->post('/', 'Auth::index');
 $routes->get('sistem/update_resi', 'Sistem::update_resi');
 $routes->get('admin/logout', 'Auth::logout');
