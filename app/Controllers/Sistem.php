@@ -59,7 +59,7 @@ class Sistem extends BaseController
 
             $result = $result->rajaongkir;
 
-            if($result->status->code == 200){
+            if(@$result->status->code == 200){
                 foreach($result->result->manifest as $key => $val){
                     
                     $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->manifest_date . " " . $val->manifest_time)->where('description', $val->manifest_description)->findAll();
@@ -85,7 +85,7 @@ class Sistem extends BaseController
                         sendWa($values->no_telp, $message);
                     }
                 }
-            } else if($result->status->code == 400){
+            } else if(@$result->status->code == 400){
                 $deskripsi = $result->status->description;
 
                 $data = [
@@ -99,6 +99,29 @@ class Sistem extends BaseController
                 $message .= "\r\nPembelian : " . $this->Produk->where('kode_barang', $values->kode_barang)->first()->nama_barang;
                 $message .= "\r\nNo resi : " . $values->no_resi;
                 $message .= "\r\nKeterangan : " . $deskripsi;
+                $message .= "\r\nUpdate Resi: Kurir telah pick up paket*";
+                $message .= "\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+
+                // $message = "Halo kak, berikut informasi dari resi kaka :\r\nKeterangan : " . $deskripsi;
+                
+                if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
+                    $this->ResiNotif->save($data);
+                    sendWa($values->no_telp, $message);
+                }
+            }else{
+                // $deskripsi = $result->status->description;
+
+                // $data = [
+                //     'resi_id' => $values->resi_id,
+                //     'deskripsi' => $deskripsi,
+                // ];
+
+                $message = "Hallo kak, ini untuk Update resi nya yaa\r\n";
+                $message .= "\r\n*-Nama : " . $values->nama_customer;
+                // $message .= "\r\nAlamat : yyyyy";
+                $message .= "\r\nPembelian : " . $this->Produk->where('kode_barang', $values->kode_barang)->first()->nama_barang;
+                $message .= "\r\nNo resi : " . $values->no_resi;
+                $message .= "\r\nKeterangan : ";
                 $message .= "\r\nUpdate Resi: Kurir telah pick up paket*";
                 $message .= "\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
 
