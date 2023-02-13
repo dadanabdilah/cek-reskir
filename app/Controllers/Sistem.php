@@ -59,8 +59,6 @@ class Sistem extends BaseController
 
             $result = $result->rajaongkir;
 
-            var_dump($result->status);
-
             if(@$result->status->code == 200){
                 foreach($result->result->manifest as $key => $val){
                     
