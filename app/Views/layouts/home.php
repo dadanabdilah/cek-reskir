@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
-                <a href="<?= site_url('assets/') ?>index3.html" class="navbar-brand">
+                <a href="<?= site_url('assets/') ?>" class="navbar-brand">
                     <!-- <img src="<?= site_url('assets/') ?>img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
                     <span class="brand-text font-weight-light">Dewaspray Store</span>
                 </a>
