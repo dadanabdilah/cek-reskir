@@ -103,7 +103,7 @@ class Resi extends ResourceController
             'no_resi'     => $this->request->getPost('no_resi'),
             'ekspedisi'     => $this->request->getPost('ekspedisi'),
             'harga'     => $this->request->getPost('harga'),
-            'tanggal_pencatatan'  => $this->request->getPost('tanggal_pencatatan'),
+            'tanggal_pencatatan'  => $this->request->getPost('tanggal_pencatatan')." ".date("H:i:s"),
             'admin_id'    => session('admin_id'),
         ];
 
