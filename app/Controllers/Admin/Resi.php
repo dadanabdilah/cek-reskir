@@ -117,7 +117,7 @@ class Resi extends ResourceController
             $message .= "\r\n*Pembelian : " . $this->Produk->where('kode_barang', $this->request->getPost('kode_barang'))->first()->nama_barang . "*";
             $message .= "\r\n*No resi : " . $this->request->getPost('no_resi') . "*";
             $message .= "\r\n*Update Resi: Kurir telah pick up paket*";
-            $message .= "\r\nHappy Shoping!\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+            $message .= "\r\n\r\nHappy Shoping! 🥰🥰🙏\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
             
             sendWa($this->request->getPost('no_telp'), $message);
 
