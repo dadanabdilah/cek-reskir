@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="<?= site_url('ongkir') ?>" class="nav-link">Cek Ongkir</a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url() ?>" class="nav-link">Login</a>
+                            <a href="<?= site_url() ?>/Auth" class="nav-link">Login</a>
                         </li>
                     
                     </ul>
