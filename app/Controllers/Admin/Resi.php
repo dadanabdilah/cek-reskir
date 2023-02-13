@@ -111,7 +111,7 @@ class Resi extends ResourceController
         
         if ($result) {
 
-            $message = "Hallo Kak 👋\r\nberikut rincian pembelian di *Dewa Spray* yaa\r\n";
+            $message = "Hallo Kak 👋\r\nberikut rincian pembelian di *Dewa Store* yaa\r\n";
             $message .= "\r\n*Nama : " . $this->request->getPost('nama_customer') . "*";
             // $message .= "\r\nAlamat : yyyyy";
             $message .= "\r\n*Pembelian : " . $this->Produk->where('kode_barang', $this->request->getPost('kode_barang'))->first()->nama_barang . "*";
