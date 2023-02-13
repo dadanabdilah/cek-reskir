@@ -205,6 +205,11 @@ class Resi extends ResourceController
                 $this->ResiNotif->where('resi_id', $id)->delete();
             }
 
+            $r = $this->Resi->where('resi_id', $id)->countAllResults();
+            if($r > 0){
+                $this->Resi->where('resi_id', $id)->delete();
+            }
+
             session()->setFlashdata('message', 'Hapus Data Berhasil');
         } else {
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
