@@ -79,7 +79,7 @@
                 'countryCode' => '62', //optional
             ),
             CURLOPT_HTTPHEADER => [
-                'Authorization: PHbozD0CqBxxpISKE8yz' //change TOKEN to your actual token
+                'Authorization: JUkxqxhYf3U0Y@fNIhkj' //change TOKEN to your actual token
             ],
         ));
 
