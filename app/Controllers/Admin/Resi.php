@@ -112,11 +112,11 @@ class Resi extends ResourceController
         if ($result) {
 
             $message = "Hallo Kak, berikut rincian pembelian di *Dewa Spray* yaa\r\n";
-            $message .= "\r\n*-Nama : " . $this->request->getPost('nama_customer');
+            $message .= "\r\n*Nama : " . $this->request->getPost('nama_customer') . "*";
             // $message .= "\r\nAlamat : yyyyy";
-            $message .= "\r\nPembelian : " . $this->Produk->where('kode_barang', $this->request->getPost('kode_barang'))->first()->nama_barang;
-            $message .= "\r\nNo resi : " . $this->request->getPost('no_resi');
-            $message .= "\r\nUpdate Resi: Kurir telah pick up paket*";
+            $message .= "\r\n*Pembelian : " . $this->Produk->where('kode_barang', $this->request->getPost('kode_barang'))->first()->nama_barang . "*";
+            $message .= "\r\n*No resi : " . $this->request->getPost('no_resi') . "*";
+            $message .= "\r\n*Update Resi: Kurir telah pick up paket*";
             $message .= "\r\nHappy Shoping!\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
             
             sendWa($this->request->getPost('no_telp'), $message);
