@@ -133,6 +133,7 @@ class Ongkir extends BaseController
                         <td>". $value->description ."</td>        
                 </tr>";
 
+                $cod = (2 * $produk->harga) / 100;
                 $total_harga =  ($qty * $produk->harga) + $value->cost[0]->value;
 
                 $copy_text .= "<div class='mb-3'>";
@@ -141,7 +142,8 @@ class Ongkir extends BaseController
                 $copy_text .= "\r\nHarga Produk  : " . $qty . " x Rp. " . number_format($produk->harga, 2, ',','.') . " = Rp. " . number_format($qty * $produk->harga, 2, ',','.'); 
                 $copy_text .= "\r\nEkspedisi  : " . $response->rajaongkir->results[0]->name . " - ". $value-> service;
                 $copy_text .= "\r\nOngkir  : " . $qty . " x " . $weight . "(g) = Rp. " . number_format($value->cost[0]->value, 2, ',','.');
-                $copy_text .= "\r\nTotal Harga : Rp. " . number_format($total_harga, 2, ',','.') ;
+                $copy_text .= "\r\nCOD  : Rp. " . number_format($cod, 2, ',','.');
+                $copy_text .= "\r\nTotal Harga : Rp. " . number_format($total_harga+$cod, 2, ',','.') ;
                 $copy_text .= "</textarea>";
                 $copy_text .= "<button type='button' onclick=\"copyToClipboard('#copy_text".$no."')\" class='btn btn-success btn_copy mt-2'>Copy Text</button>";
                 $copy_text .= "</div>";
