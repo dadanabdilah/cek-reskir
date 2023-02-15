@@ -60,6 +60,7 @@ class Sistem extends BaseController
             $result = $result->rajaongkir;
 
             if(@$result->status->code == 200){
+                var_dump($result);
                 foreach($result->result->manifest as $key => $val){
                     
                     $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->manifest_date . " " . $val->manifest_time)->where('description', $val->manifest_description)->findAll();
