@@ -87,7 +87,7 @@ class Sistem extends BaseController
                 }
             } else if(@$result->status->code == 400){
                 $deskripsi = $result->status->description;
-
+                var_dump($result);
                 $data = [
                     'resi_id' => $values->resi_id,
                     'deskripsi' => $deskripsi,
@@ -99,7 +99,7 @@ class Sistem extends BaseController
                 $message .= "\r\n*Pembelian : " . $this->Produk->where('kode_barang', $values->kode_barang)->first()->nama_barang . "*";
                 $message .= "\r\n*No resi : " . $values->no_resi . "*";
                 $message .= "\r\n*Keterangan : " . $deskripsi . "*";
-                $message .= "\r\n*Update Resi: Kurir telah pick up paket*";
+                // $message .= "\r\n*Update Resi: ".  ."*";
                 $message .= "\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
 
                 // $message = "Halo kak, berikut informasi dari resi kaka :\r\nKeterangan : " . $deskripsi;
