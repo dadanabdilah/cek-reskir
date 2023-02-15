@@ -82,7 +82,7 @@ class Sistem extends BaseController
 
                         $this->Resi->save($update);
 
-                        $message = "Halo kak, berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $val->manifest_date . " " . $val->manifest_time . "\r\nKeterangan : " . $val->manifest_description;
+                        $message = "Halo kak, berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $val->manifest_date . " " . $val->manifest_time . "\r\nKeterangan : " . $val->manifest_description . " " . $val->city_name;
                         sendWa($values->no_telp, $message);
                     }
                 }
