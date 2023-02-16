@@ -22,7 +22,7 @@ class Sistem extends BaseController
     {
         // SICEPAT DELIVERED,
         // JNT 1
-        $raja_key  = "c77bd09e66015ea8b62e826ab0c71cca";
+        $raja_key  = "a87a0e777f90d2db9a47f194006dc2ea";
 
         $Resi = $this->Resi->findAll();
         $rows = [];
