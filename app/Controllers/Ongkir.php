@@ -9,7 +9,7 @@ use App\Models\ProdukModel;
 
 class Ongkir extends BaseController
 {
-    protected $raja_key = "c77bd09e66015ea8b62e826ab0c71cca";
+    protected $raja_key = "a87a0e777f90d2db9a47f194006dc2ea";
     
     function __construct(){
         helper(['my_helper']);
