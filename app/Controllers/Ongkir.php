@@ -18,6 +18,7 @@ class Ongkir extends BaseController
     }
 
     public function index(){
+        echo $this->raja_key;
         $data = [
             'Produk' => $this->Produk->findAll(),
             'Provinsi' => $this->Province(),
