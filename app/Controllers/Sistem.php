@@ -32,7 +32,7 @@ class Sistem extends BaseController
         }
 
         foreach($Resi as $keys => $values){
-            var_dump($values);
+            // var_dump($values);
             if ($values->status != "DELIVERED"){
                 $curl = curl_init();
 
