@@ -19,7 +19,10 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><a class="btn btn-primary btn-sm" href="<?= base_url('admin/resi/new') ?>">Tambah</a></h3>
+                <h3 class="card-title">
+                    <a class="btn btn-primary btn-sm" href="<?= base_url('admin/resi/new') ?>">Tambah</a>
+                    <a class="btn btn-warning btn-sm" href="<?= base_url('sistem/update_resi') ?>">Update Resi</a>
+                </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
