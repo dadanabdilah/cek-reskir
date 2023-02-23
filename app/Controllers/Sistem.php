@@ -20,20 +20,24 @@ class Sistem extends BaseController
 
     public function update_resi()
     {
+        $db      = \Config\Database::connect();
+        $Resi = $db->table('tbl_resi');
         // SICEPAT DELIVERED,
         // JNT 1
         $raja_key  = "a87a0e777f90d2db9a47f194006dc2ea";
 
-        $Resi = $this->Resi->findAll();
+        // $Resi = $this->Resi->findAll();
+        $Resi->where('status !=', "DELIVERED");
+
+        // var_dump($Resi->countAll());
         $rows = [];
         
-        if($this->Resi->countAllResults() == 0){
-            die();
-        }
+        // if($Resi->countAll() == 0){
+        //     die();
+        // }
 
-        foreach($Resi as $keys => $values){
-            // var_dump($values);
-            if ($values->status != "DELIVERED"){
+        foreach($Resi->get()->getResult() as $keys => $values){
+            var_dump($values);
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
@@ -118,7 +122,7 @@ class Sistem extends BaseController
                         sendWa($values->no_telp, $message);
                     }
                 }
-            }
+                sleep(30);
         }
 
         dd($rows);
