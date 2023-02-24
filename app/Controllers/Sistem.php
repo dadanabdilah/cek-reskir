@@ -27,6 +27,8 @@ class Sistem extends BaseController
 
         $no = 0;
         foreach ($Resi->get()->getResult() as $key) {
+            $resiDump = $db->table('tbl_resi_dump');
+            $resiDump->insert($key);
             $deleteResi = $db->table('tbl_resi');
             $deleteResi->delete(['resi_id' => $key->resi_id]);
             $no++;
