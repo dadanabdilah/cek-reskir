@@ -33,6 +33,7 @@ $routes->get('/', 'Ongkir::index');
 $routes->get('auth', 'Auth::index');
 $routes->post('/', 'Auth::index');
 $routes->get('sistem/update_resi', 'Sistem::update_resi');
+$routes->get('sistem/cekExpired', 'Sistem::cekExpired');
 $routes->get('admin/logout', 'Auth::logout');
 
 $routes->get('ongkir', 'Ongkir::index');

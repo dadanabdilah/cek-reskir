@@ -18,6 +18,20 @@ class Sistem extends BaseController
         $this->Produk = new ProdukModel;
     }
 
+    public function cekExpired()
+    {
+        $db      = \Config\Database::connect();
+        $Resi = $db->table('tbl_resi');
+        $Resi->where('status', "DELIVERED");
+        $Resi->where('datediff(now(), tanggal_pencatatan) > 6');
+
+        foreach ($Resi->get()->getResult() as $key) {
+            $deleteResi = $db->table('tbl_resi');
+            $deleteResi->delete(['resi_id' => $key->resi_id]);
+        }
+
+    }
+
     public function update_resi()
     {
         $db      = \Config\Database::connect();
