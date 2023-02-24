@@ -25,11 +25,14 @@ class Sistem extends BaseController
         $Resi->where('status', "DELIVERED");
         $Resi->where('datediff(now(), tanggal_pencatatan) > 6');
 
+        $no = 0;
         foreach ($Resi->get()->getResult() as $key) {
             $deleteResi = $db->table('tbl_resi');
             $deleteResi->delete(['resi_id' => $key->resi_id]);
+            $no++;
         }
 
+        echo "Telah terhapus $no data.";
     }
 
     public function update_resi()
