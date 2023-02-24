@@ -23,7 +23,7 @@ class Sistem extends BaseController
         $db      = \Config\Database::connect();
         $Resi = $db->table('tbl_resi');
         $Resi->where('status', "DELIVERED");
-        $Resi->where('datediff(now(), tanggal_pencatatan) > 6');
+        $Resi->where('datediff(now(), tanggal_pencatatan) > 3');
 
         $no = 0;
         foreach ($Resi->get()->getResult() as $key) {
