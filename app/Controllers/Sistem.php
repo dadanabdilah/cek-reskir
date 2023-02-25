@@ -184,8 +184,8 @@ class Sistem extends BaseController
             $result = json_decode($json);
             $result = $result->rajaongkir;
 
-            if(@$result->status->code == 200){
-                if (@$result->result->delivered == true){
+            if($result->status->code == 200){
+                if ($result->result->delivered == true){
                     $update = [
                         'status' => 'DELIVERED',
                     ];
@@ -209,7 +209,7 @@ class Sistem extends BaseController
                 }
 
                 $no++;
-            } else if(@$result->status->code == 400){
+            } else if($result->status->code == 400){
                 $deskripsi = $result->status->description;
                 $data = [
                     'resi_id' => $values->resi_id,
