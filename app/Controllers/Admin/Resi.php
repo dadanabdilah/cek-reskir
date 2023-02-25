@@ -260,10 +260,10 @@ class Resi extends ResourceController
                 $no++;
 
             }
-            var_dump($rows);
+            // var_dump($rows);
             if (!empty($rows)){
-                // $db->table('tbl_resi')->insertBatch($rows);
+                $db->table('tbl_resi')->insertBatch($rows);
             }
-			// return redirect()->to('/admin/resi');
+			return redirect()->to('/admin/resi');
 		}
 }
