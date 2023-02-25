@@ -160,7 +160,7 @@ class Sistem extends BaseController
         $raja_key  = "a87a0e777f90d2db9a47f194006dc2ea";
 
         $Resi = $db->table('tbl_resi');
-        $Resi->where('status !=', "DELIVERED");
+        $Resi->where('status', NULL);
         $Resi->orderby('tanggal_pencatatan', 'DESC');
 
         $no = 0;
@@ -184,7 +184,7 @@ class Sistem extends BaseController
 
             $result = json_decode($json);
             $result = $result->rajaongkir;
-            var_dump($result);
+            // var_dump($result);
 
             if(@$result->status->code == 200){
                 if (@$result->result->delivered == true){
