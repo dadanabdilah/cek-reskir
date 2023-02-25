@@ -220,6 +220,7 @@ class Sistem extends BaseController
                     $this->ResiNotif->save($data);
                 }
                 $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
+                echo "[".date("Y/m/d H:i:s")."] logResiInvalid.txt updated.";
             }
 
         }
