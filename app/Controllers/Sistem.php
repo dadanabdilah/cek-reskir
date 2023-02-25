@@ -165,7 +165,6 @@ class Sistem extends BaseController
 
         $no = 0;
         foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
-            var_dump($values);
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
                 CURLOPT_ENCODING => "",
@@ -184,7 +183,6 @@ class Sistem extends BaseController
 
             $result = json_decode($json);
             $result = $result->rajaongkir;
-            // var_dump($result);
 
             if(@$result->status->code == 200){
                 if (@$result->result->delivered == true){
