@@ -31,6 +31,8 @@
         <link rel="stylesheet" href="<?= site_url() ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
         <link rel="stylesheet" href="<?= site_url() ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
         
+        <!-- jQuery -->
+        <script src="<?= site_url() ?>assets/plugins/jquery/jquery.min.js"></script>
         <?= $this->renderSection('style') ?>  
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
@@ -154,8 +156,6 @@
         </div>
         <!-- ./wrapper -->
 
-        <!-- jQuery -->
-        <script src="<?= site_url() ?>assets/plugins/jquery/jquery.min.js"></script>
         <!-- jQuery UI 1.11.4 -->
         <script src="<?= site_url() ?>assets/plugins/jquery-ui/jquery-ui.min.js"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

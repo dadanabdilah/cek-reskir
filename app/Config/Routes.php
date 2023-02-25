@@ -34,6 +34,9 @@ $routes->get('auth', 'Auth::index');
 $routes->post('/', 'Auth::index');
 $routes->get('sistem/update_resi', 'Sistem::update_resi');
 $routes->get('sistem/cekExpired', 'Sistem::cekExpired');
+$routes->get('sistem/cekResi', 'Sistem::cekResi');
+$routes->get('sistem/cekResi/(:num)/(:num)', 'Sistem::cekResi/$1/$2');
+$routes->get('sistem/getResi', 'Sistem::getResi');
 $routes->get('admin/logout', 'Auth::logout');
 
 $routes->get('ongkir', 'Ongkir::index');

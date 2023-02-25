@@ -27,14 +27,15 @@ class Sistem extends BaseController
 
         $no = 0;
         foreach ($Resi->get()->getResult() as $key) {
-            $resiDump = $db->table('tbl_resi_dump');
+            $resiDump = $db->table('tbl_resi_clear');
             $resiDump->insert($key);
             $deleteResi = $db->table('tbl_resi');
             $deleteResi->delete(['resi_id' => $key->resi_id]);
             $no++;
         }
 
-        echo "Telah terhapus $no data.";
+        $this->createLog("logExpired.txt", "[".date("Y/m/d H:i:s")."] Telah terhapus $no data.\r\n");
+        echo "[".date("Y/m/d H:i:s")."] Log updated.";
     }
 
     public function update_resi()
@@ -146,4 +147,124 @@ class Sistem extends BaseController
 
         dd($rows);
     }
+
+
+    public function cekResi($limit = 4, $offset = 1)
+    {
+        
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $raja_key  = "a87a0e777f90d2db9a47f194006dc2ea";
+
+        $db      = \Config\Database::connect();
+        $Resi = $db->table('tbl_resi');
+        $Resi->where('status !=', "DELIVERED");
+        $Resi->where('status !=', "1");
+
+        $no = 1;
+        foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 300,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "waybill=". $values->no_resi ."&courier=" . $values->ekspedisi,
+                CURLOPT_HTTPHEADER => array(
+                    "content-type: application/x-www-form-urlencoded",
+                    "key: " . $raja_key . ""
+                ),
+            ));
+
+            $json = curl_exec($curl);
+
+            $result = json_decode($json);
+            $result = $result->rajaongkir;
+
+            if(@$result->status->code == 200){
+                if (@$result->result->delivered == true){
+                    $update = [
+                        'status' => 'DELIVERED',
+                    ];
+                    $this->Resi->update($values->resi_id, $update);
+                }
+                foreach($result->result->manifest as $key => $val){
+                    
+                    $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->manifest_date . " " . $val->manifest_time)->where('description', $val->manifest_description)->findAll();
+                    
+                    if(count($res_act) == 0 ){
+                        $data = [
+                            'resi_id' => $values->resi_id,
+                            'date' => $val->manifest_date . " " . $val->manifest_time,
+                            'description' => $val->manifest_description,
+                            'location' => $val->city_name,
+                        ];
+            
+                        $this->ResiAct->save($data);
+
+                        // $update = [
+                        //     'status' => $val->manifest_code,
+                        // ];
+
+                        // $this->Resi->update($values->resi_id, $update);
+                    }
+                }
+
+                $no++;
+            } else if(@$result->status->code == 400){
+                $deskripsi = $result->status->description;
+                $data = [
+                    'resi_id' => $values->resi_id,
+                    'deskripsi' => $deskripsi,
+                ];
+
+                if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
+                    $this->ResiNotif->save($data);
+                }
+            }
+
+            $no++;
+        }
+
+        curl_close($curl);
+
+        return $limit + $offset;
+
+    }
+
+    public function getResi()
+    {
+        $db      = \Config\Database::connect();
+        $Resi = $db->table('tbl_resi');
+        $Resi->where('status !=', "DELIVERED");
+        $Resi->where('status !=', 1);
+
+        $totalResi = $Resi->get()->getNumRows();
+
+        $no = 0;
+        while ($no <= $totalResi){
+            $no = $this->cekResi(4, $no);
+        }
+
+        echo $no;
+
+    }
+
+
+    function createLog($nameFile = "logDelete.txt", $textFile = "Telah terhapus 1 data.\r\n"){
+        $text = "";
+
+        if (file_exists($nameFile) && filesize($nameFile) > 0){
+            $fw = fopen($nameFile, "r");  
+            $text .= fread($fw, filesize($nameFile));
+            fclose($fw);
+        }
+
+        $fp = fopen($nameFile, "wb");  
+        $text .= $textFile;
+        fwrite($fp, $text);
+        fclose($fp);
+    }
+
 }
