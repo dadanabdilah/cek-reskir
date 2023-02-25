@@ -21,7 +21,6 @@
               <div class="card-header">
                 <h3 class="card-title">
                     <a class="btn btn-primary btn-sm" href="<?= base_url('admin/resi/new') ?>">Tambah</a>
-                    <a class="btn btn-warning btn-sm" href="<?= base_url('sistem/update_resi') ?>">Update Resi</a>
                     <a class="btn btn-warning btn-sm" onclick="cekExpired()">Eliminasi Resi Clear</a>
                 </h3>
               </div>
@@ -81,7 +80,6 @@
 <!-- /.content -->
 
 <script>
-
   function cekExpired()
   {
     // alert(4);
