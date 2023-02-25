@@ -263,6 +263,9 @@ class Resi extends ResourceController
             // var_dump($rows);
             if (!empty($rows)){
                 $db->table('tbl_resi')->insertBatch($rows);
+                session()->setFlashdata('message', 'Import Data Berhasil');
+            } else {
+                session()->setFlashdata('error', 'Import Data Tidak Berhasil');
             }
 			return redirect()->to('/admin/resi');
 		}
