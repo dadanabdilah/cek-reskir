@@ -33,6 +33,7 @@ $routes->get('/', 'Ongkir::index');
 $routes->get('auth', 'Auth::index');
 $routes->post('/', 'Auth::index');
 $routes->get('sistem/update_resi', 'Sistem::update_resi');
+$routes->get('template_import_resi.xlsx', 'template_import_resi.xlsx');
 $routes->get('sistem/cekExpired', 'Sistem::cekExpired');
 $routes->get('sistem/cekResi', 'Sistem::cekResi');
 $routes->get('sistem/cekResi/(:num)/(:num)', 'Sistem::cekResi/$1/$2');
