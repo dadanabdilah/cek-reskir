@@ -21,6 +21,7 @@ class Sistem extends BaseController
     public function cekExpired()
     {
         $db      = \Config\Database::connect();
+        date_default_timezone_set("asia/jakarta");
         $Resi = $db->table('tbl_resi');
         $Resi->where('status', "DELIVERED");
         $Resi->where('datediff(now(), tanggal_pencatatan) > 3');
