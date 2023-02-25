@@ -81,7 +81,7 @@ class Resi extends ResourceController
      */
     public function create()
     {
-        
+        date_default_timezone_set("asia/jakarta");
         if (!$this->validate([
             'kode_barang' => 'required',
             'nama_customer' => 'required',
