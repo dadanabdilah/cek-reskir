@@ -165,7 +165,7 @@ class Sistem extends BaseController
 
         $no = 0;
         foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
-            // var_dump($values);
+            var_dump($values);
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
                 CURLOPT_ENCODING => "",
