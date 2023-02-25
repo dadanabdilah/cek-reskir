@@ -257,7 +257,7 @@ class Sistem extends BaseController
                 $db->table('tbl_resi_activity')->update($update, ['resi_activity_id' => $value->resi_activity_id]);
             }
         }
-
+  
         $this->createLog("logSendWhatsapp.txt", "[".date("Y/m/d H:i:s")."] Telah mengirim $no perubahan resi.\r\n");
         echo "[".date("Y/m/d H:i:s")."] logSendWhatsapp.txt updated.";
     }
