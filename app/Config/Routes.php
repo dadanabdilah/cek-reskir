@@ -36,6 +36,8 @@ $routes->get('sistem/update_resi', 'Sistem::update_resi');
 $routes->get('sistem/cekExpired', 'Sistem::cekExpired');
 $routes->get('sistem/cekResi', 'Sistem::cekResi');
 $routes->get('sistem/cekResi/(:num)/(:num)', 'Sistem::cekResi/$1/$2');
+$routes->get('sistem/cekWhatsapp', 'Sistem::cekWhatsapp');
+$routes->get('sistem/cekWhatsapp/(:num)/(:num)', 'Sistem::cekWhatsapp/$1/$2');
 $routes->get('sistem/getResi', 'Sistem::getResi');
 $routes->get('admin/logout', 'Auth::logout');
 

@@ -39,7 +39,7 @@ class Sistem extends BaseController
         echo "[".date("Y/m/d H:i:s")."] logExpired.txt updated.";
     }
 
-    public function update_resi()
+    public function update_resis()
     {
         $db      = \Config\Database::connect();
         $Resi = $db->table('tbl_resi');
@@ -231,24 +231,36 @@ class Sistem extends BaseController
         echo "[".date("Y/m/d H:i:s")."] logResi.txt updated.";
     }
 
-    public function getResi()
+    public function cekWhatsapp($limit = 4, $offset = 1)
     {
         $db      = \Config\Database::connect();
+        date_default_timezone_set("asia/jakarta");
         $Resi = $db->table('tbl_resi');
-        $Resi->where('status !=', "DELIVERED");
-        $Resi->where('status !=', 1);
-
-        $totalResi = $Resi->get()->getNumRows();
+        $Resi->where('status', NULL);
+        $Resi->orderby('tanggal_pencatatan', 'DESC');
 
         $no = 0;
-        while ($no <= $totalResi){
-            $no = $this->cekResi(4, $no);
+        foreach ($Resi->get($limit, $offset)->getResult() as $key){
+            $Activity = $db->table('tbl_resi_activity')->where(['resi_id' => $key->resi_id, 'sendWhatsapp' => '0'])->orderby('date', 'asc');
+            foreach ($Activity->get()->getResult() as $value) {
+                // var_dump($value);
+                $message = "Halo kak, berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $value->date . "\r\nKeterangan : " . $value->description . " " . $value->location;
+                $send = sendWa($key->no_telp, $message);
+
+                if ($send){
+                    $no++;
+                }
+                $update = array(
+                    'sendWhatsapp' => 1
+                );
+
+                $db->table('tbl_resi_activity')->update($update, ['resi_activity_id' => $value->resi_activity_id]);
+            }
         }
 
-        echo $no;
-
+        $this->createLog("logSendWhatsapp.txt", "[".date("Y/m/d H:i:s")."] Telah mengirim $no perubahan resi.\r\n");
+        echo "[".date("Y/m/d H:i:s")."] logSendWhatsapp.txt updated.";
     }
-
 
     function createLog($nameFile = "logDelete.txt", $textFile = "Telah terhapus 1 data.\r\n"){
         $text = "";
