@@ -36,7 +36,7 @@ class Sistem extends BaseController
         }
 
         $this->createLog("logExpired.txt", "[".date("Y/m/d H:i:s")."] Telah terhapus $no data.\r\n");
-        echo "[".date("Y/m/d H:i:s")."] Log updated.";
+        echo "[".date("Y/m/d H:i:s")."] logExpired.txt updated.";
     }
 
     public function update_resi()
@@ -152,17 +152,18 @@ class Sistem extends BaseController
 
     public function cekResi($limit = 4, $offset = 1)
     {
-        
+        date_default_timezone_set("asia/jakarta");
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $db      = \Config\Database::connect();
+
         $raja_key  = "a87a0e777f90d2db9a47f194006dc2ea";
 
-        $db      = \Config\Database::connect();
         $Resi = $db->table('tbl_resi');
         $Resi->where('status !=', "DELIVERED");
-        $Resi->where('status !=', "1");
+        $Resi->orderby('tanggal_pencatatan', 'DESC');
 
-        $no = 1;
+        $no = 0;
         foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
@@ -204,11 +205,6 @@ class Sistem extends BaseController
             
                         $this->ResiAct->save($data);
 
-                        // $update = [
-                        //     'status' => $val->manifest_code,
-                        // ];
-
-                        // $this->Resi->update($values->resi_id, $update);
                     }
                 }
 
@@ -223,15 +219,15 @@ class Sistem extends BaseController
                 if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
                     $this->ResiNotif->save($data);
                 }
+                $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
             }
 
-            $no++;
         }
 
         curl_close($curl);
 
-        return $limit + $offset;
-
+        $this->createLog("logResi.txt", "[".date("Y/m/d H:i:s")."] Telah terubah aktivitas $no resi data.\r\n");
+        echo "[".date("Y/m/d H:i:s")."] logResi.txt updated.";
     }
 
     public function getResi()
