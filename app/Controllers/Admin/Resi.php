@@ -217,4 +217,66 @@ class Resi extends ResourceController
 
         return redirect()->to('admin/resi');
     }
+
+    public function import()
+		{
+            $db = \Config\Database::connect();
+
+			$file_excel = $this->request->getFile('berkas');
+			$ext = $file_excel->getClientExtension();
+
+			if($ext == 'xls') {
+				$render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+			} else {
+				$render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+			}
+
+			$spreadsheet = $render->load($file_excel);
+	
+			$data = $spreadsheet->getActiveSheet()->toArray();
+            $rows = [];
+            $no = 0;
+			foreach($data as $x => $row) {
+				if ($x == 0) {
+					continue;
+				}
+				
+                $cekResi = $db->table('tbl_resi')->getWhere(['no_resi' => $row[2]]);
+
+                if ($cekResi->getNumRows() == 0){
+                    $getProduct = $db->table('tbl_produk')->getWhere(['nama_barang' => $row[3]])->getRow();
+
+                    $rows[$no] = array(
+                        'nama_customer' => $row[0],
+                        'no_telp'       => $row[1],
+                        'no_resi'       => $row[2],
+                        'kode_barang'   => $getProduct->kode_barang,
+                        'ekspedisi'     => $row[4],
+                        'harga'         => $row[5],
+                        'tanggal_pencatatan'=> date('Y-m-d H:i:s'),
+                    );
+                }
+
+                $no++;
+
+				// $cekNis = $db->table('siswa')->getWhere(['Nis'=>$Nis])->getResult();
+
+				// if(count($cekNis) > 0) {
+				// 	session()->setFlashdata('message','<b style="color:red">Data Gagal di Import NIS ada yang sama</b>');
+				// } else {
+	
+				// $simpandata = [
+				// 	'Nis' => $Nis, 'NamaSiswa' => $NamaSiswa, 'Alamat'=> $Alamat
+				// ];
+	
+				// $db->table('siswa')->insert($simpandata);
+				// session()->setFlashdata('message','Berhasil import excel'); 
+                // }
+            }
+            // var_dump($rows);
+            if (!empty($rows)){
+                $db->table('tbl_resi')->insertBatch($rows);
+            }
+			return redirect()->to('/admin/resi');
+		}
 }
