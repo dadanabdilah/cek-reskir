@@ -97,7 +97,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Untuk template unduh <a href="<?=base_url()?>/template_import_resi.xlsx" target="_BLANK">disini</a>.</p>
+          <p>Untuk template unduh <a href="<?=base_url()?>/assets/template_import_resi.xlsx" target="_BLANK">disini</a>.</p>
           <p><input type="file" name="berkas" id="berkas" class="form-control"></p>
         </div>
         <div class="modal-footer justify-content-between">
