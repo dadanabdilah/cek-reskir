@@ -259,24 +259,11 @@ class Resi extends ResourceController
 
                 $no++;
 
-				// $cekNis = $db->table('siswa')->getWhere(['Nis'=>$Nis])->getResult();
-
-				// if(count($cekNis) > 0) {
-				// 	session()->setFlashdata('message','<b style="color:red">Data Gagal di Import NIS ada yang sama</b>');
-				// } else {
-	
-				// $simpandata = [
-				// 	'Nis' => $Nis, 'NamaSiswa' => $NamaSiswa, 'Alamat'=> $Alamat
-				// ];
-	
-				// $db->table('siswa')->insert($simpandata);
-				// session()->setFlashdata('message','Berhasil import excel'); 
-                // }
             }
-            // var_dump($rows);
+            var_dump($rows);
             if (!empty($rows)){
-                $db->table('tbl_resi')->insertBatch($rows);
+                // $db->table('tbl_resi')->insertBatch($rows);
             }
-			return redirect()->to('/admin/resi');
+			// return redirect()->to('/admin/resi');
 		}
 }
