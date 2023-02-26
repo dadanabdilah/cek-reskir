@@ -157,75 +157,71 @@ class Sistem extends BaseController
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $db      = \Config\Database::connect();
 
-        $raja_key  = "a87a0e777f90d2db9a47f194006dc2ea";
+        $apikey  = "ID202302190010290";
 
         $Resi = $db->table('tbl_resi');
         $Resi->where('status', NULL);
         $Resi->orderby('tanggal_pencatatan', 'DESC');
 
         $no = 0;
-        // foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
-        //     curl_setopt_array($curl, array(
-        //         CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
-        //         CURLOPT_ENCODING => "",
-        //         CURLOPT_MAXREDIRS => 10,
-        //         CURLOPT_TIMEOUT => 300,
-        //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //         CURLOPT_CUSTOMREQUEST => "POST",
-        //         CURLOPT_POSTFIELDS => "waybill=". $values->no_resi ."&courier=" . $values->ekspedisi,
-        //         CURLOPT_HTTPHEADER => array(
-        //             "content-type: application/x-www-form-urlencoded",
-        //             "key: " . $raja_key . ""
-        //         ),
-        //     ));
+        foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://101.255.119.6/api/cekresi/run.php?apikey=".$apikey."&noresi=".$values->no_resi,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 300,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+            ));
 
-        //     $json = curl_exec($curl);
+            $json = curl_exec($curl);
 
-        //     $result = json_decode($json);
-        //     $result = $result->rajaongkir;
+            $result = json_decode($json);
+            var_dump($result);
+            // $result = $result->rajaongkir;
 
-        //     if($result->status->code == 200){
-        //         if ($result->result->delivered == true){
-        //             $update = [
-        //                 'status' => 'DELIVERED',
-        //             ];
-        //             $this->Resi->update($values->resi_id, $update);
-        //         }
-        //         foreach($result->result->manifest as $key => $val){
+            if($result->info == 200){
+                if ($result->status == "DELIVERED"){
+                    $update = [
+                        'status' => 'DELIVERED',
+                    ];
+                    $this->Resi->update($values->resi_id, $update);
+                }
+                foreach($result->histori as $key => $val){
                     
-        //             $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->manifest_date . " " . $val->manifest_time)->where('description', $val->manifest_description)->findAll();
+                    $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->time)->where('description', $val->desc)->findAll();
                     
-        //             if(count($res_act) == 0 ){
-        //                 $data = [
-        //                     'resi_id' => $values->resi_id,
-        //                     'date' => $val->manifest_date . " " . $val->manifest_time,
-        //                     'description' => $val->manifest_description,
-        //                     'location' => $val->city_name,
-        //                 ];
+                    if(count($res_act) == 0 ){
+                        $data = [
+                            'resi_id' => $values->resi_id,
+                            'date' => $val->time,
+                            'description' => $val->desc,
+                            'location' => $val->position,
+                        ];
             
-        //                 $this->ResiAct->save($data);
+                        $this->ResiAct->save($data);
 
-        //             }
-        //         }
+                    }
+                }
 
-        //         $no++;
-        //     } else if($result->status->code == 400){
-        //         $deskripsi = $result->status->description;
-        //         $data = [
-        //             'resi_id' => $values->resi_id,
-        //             'deskripsi' => $deskripsi,
-        //         ];
+                $no++;
+            } else {
+                $deskripsi = $result;
+                $data = [
+                    'resi_id' => $values->resi_id,
+                    'deskripsi' => $deskripsi,
+                ];
 
-        //         if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
-        //             $this->ResiNotif->save($data);
-        //         }
-        //         $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
-        //         echo "[".date("Y/m/d H:i:s")."] logResiInvalid.txt updated.";
-        //     }
+                if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
+                    $this->ResiNotif->save($data);
+                }
+                $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
+                echo "[".date("Y/m/d H:i:s")."] logResiInvalid.txt updated.";
+            }
 
-        // }
+        }
 
-        // curl_close($curl);
+        curl_close($curl);
 
         $this->createLog("logResi.txt", "[".date("Y/m/d H:i:s")."] Telah terubah aktivitas $no resi data.\r\n");
         echo "[".date("Y/m/d H:i:s")."] logResi.txt updated.";
