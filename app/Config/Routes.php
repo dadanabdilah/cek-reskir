@@ -38,6 +38,8 @@ $routes->get('sistem/cekResi', 'Sistem::cekResi');
 $routes->get('sistem/cekResi/(:num)/(:num)', 'Sistem::cekResi/$1/$2');
 $routes->get('sistem/cekWhatsapp', 'Sistem::cekWhatsapp');
 $routes->get('sistem/cekWhatsapp/(:num)/(:num)', 'Sistem::cekWhatsapp/$1/$2');
+$routes->get('sistem/cekWhatsappResi', 'Sistem::cekWhatsappResi');
+$routes->get('sistem/cekWhatsappResi/(:num)/(:num)', 'Sistem::cekWhatsappResi/$1/$2');
 $routes->get('sistem/getResi', 'Sistem::getResi');
 $routes->get('admin/logout', 'Auth::logout');
 

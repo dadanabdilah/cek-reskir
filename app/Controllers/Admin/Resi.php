@@ -112,7 +112,7 @@ class Resi extends ResourceController
         if ($result) {
 
             $message = "Hallo Kak 👋\r\nberikut rincian pembelian di *Dewa Store* yaa\r\n";
-            $message .= "\r\n*Nama : " . $this->request->getPost('nama_customer') . "*";
+            $message .= "\r\n*Nama : " . trim($this->request->getPost('nama_customer')) . "*";
             // $message .= "\r\nAlamat : yyyyy";
             $message .= "\r\n*Pembelian : " . $this->Produk->where('kode_barang', $this->request->getPost('kode_barang'))->first()->nama_barang . "*";
             $message .= "\r\n*No resi : " . $this->request->getPost('no_resi') . "*";
@@ -254,6 +254,7 @@ class Resi extends ResourceController
                         'ekspedisi'     => $row[4],
                         'harga'         => $row[5],
                         'tanggal_pencatatan'=> date('Y-m-d H:i:s'),
+                        'sendWhatsapp'  => '0'
                     );
                 }
 

@@ -258,6 +258,41 @@ class Sistem extends BaseController
         echo "[".date("Y/m/d H:i:s")."] logSendWhatsapp.txt updated.";
     }
 
+    public function cekWhatsappResi($limit = 4, $offset = 1)
+    {
+        $db      = \Config\Database::connect();
+        date_default_timezone_set("asia/jakarta");
+        $Resi = $db->table('tbl_resi');
+        $Resi->where('sendWhatsapp', '0');
+        $Resi->orderby('tanggal_pencatatan', 'DESC');
+
+        $no = 0;
+        foreach ($Resi->get($limit, $offset)->getResult() as $key){
+                // var_dump($value);
+
+            $message = "Hallo Kak 👋\r\nberikut rincian pembelian di *Dewa Store* yaa\r\n";
+            $message .= "\r\n*Nama : " . trim($key->nama_customer) . "*";
+            // $message .= "\r\nAlamat : yyyyy";
+            $message .= "\r\n*Pembelian : " . $this->Produk->where('kode_barang', $key->kode_barang)->first()->nama_barang . "*";
+            $message .= "\r\n*No resi : " . $key->no_resi . "*";
+            $message .= "\r\n*Update Resi: Kurir telah pick up paket*";
+            $message .= "\r\n\r\nHappy Shoping! 🥰🥰🙏\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+            
+            sendWa($key->no_telp, $message);
+
+            $update = array(
+                'sendWhatsapp' => 1
+            );
+
+            $no++;
+
+            $db->table('tbl_resi')->update($update, ['resi_id' => $key->resi_id]);
+        }
+  
+        $this->createLog("logSendWhatsappResi.txt", "[".date("Y/m/d H:i:s")."] Telah mengirim $no resi baru.\r\n");
+        echo "[".date("Y/m/d H:i:s")."] logSendWhatsappResi.txt updated.";
+    }
+    
     function createLog($nameFile = "logDelete.txt", $textFile = "Telah terhapus 1 data.\r\n"){
         $text = "";
 
