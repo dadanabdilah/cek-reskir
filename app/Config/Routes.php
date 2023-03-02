@@ -56,7 +56,10 @@ $routes->group('admin', ["namespace" => "App\Controllers\Admin"], static functio
     $routes->resource("admin", ['except' => 'show, new, edit', 'delete']);
     
     $routes->get('produk/delete/(:num)', 'Produk::delete/$1');
-    $routes->resource("produk", ['except' => 'show, new, edit', 'delete']);
+    $routes->resource("produk", ['except' => 'show, new, edit', 'delete', 'variasi']);
+
+    $routes->get('variasi/delete/(:num)', 'Variasi::delete/$1');
+    $routes->post('variasi/create', 'Variasi::create');
     
     $routes->get('resi/delete/(:num)', 'Resi::delete/$1');
     $routes->resource("resi", ['except' => 'delete']);

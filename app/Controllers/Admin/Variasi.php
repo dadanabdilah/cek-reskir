@@ -6,7 +6,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 use App\Models\ProdukModel;
 
-class Produk extends ResourceController
+class Variasi extends ResourceController
 {
     protected $modelName = 'App\Models\ProdukModel';
 
@@ -32,40 +32,6 @@ class Produk extends ResourceController
     }
 
     /**
-     * Return the properties of a resource object
-     *
-     * @return mixed
-     */
-    public function show($id = null)
-    {
-        //
-    }
-
-    /**
-     * Return a new resource object, with default properties
-     *
-     * @return mixed
-     */
-    public function new()
-    {
-        $data = [
-            'title' => "Data Produk",
-            'sub_title' => "Tambah Data Produk",
-        ];
-        return view('produk/new', $data);
-    }
-    
-    
-    public function variasi($id = null)
-    {
-        $data = [
-            'title' => "Data Produk",
-            'sub_title' => "Tambah Data Produk",
-        ];
-        return view('produk/new', $data);
-    }
-    
-    /**
      * Create a new resource object, from "posted" parameters
      *
      * @return mixed
@@ -73,35 +39,31 @@ class Produk extends ResourceController
     public function create()
     {
         
-        if (!$this->validate([
-            'kelompok_barang' => 'required',
-            'nama_barang' => 'required',
-            'berat' => 'required',
-            'harga' => 'required',
-        ])) {
-            session()->setFlashdata('error', $this->validator->listErrors());
-            
-            return redirect()->back()->withInput();
-        }
+        $data = $this->request->getpost();
         
-        $request = [
-            'kode_barang' => $this->generateCode(),
-            'kelompok_barang' => $this->request->getPost('kelompok_barang'),
-            'nama_barang' => $this->request->getPost('nama_barang'),
-            'berat'     => $this->request->getPost('berat'),
-            'harga'     => $this->request->getPost('harga'),
-            'admin_id'    => session('admin_id'),
-        ];
+        $db = \config\Database::connect();
 
-        $result = $this->model->save($request);
-        
-        if ($result) {
-            session()->setFlashdata('message', 'Tambah Data Berhasil');
-        } else {
-            session()->setFlashdata('error', 'Tambah Data Tidak Berhasil');
+        $cekDB = $db->table('tbl_produk_variasi')->where(['produk_variasi_id' => $data['produk_variasi_id']])->get()->getRow();
+        if ($cekDB != null){
+            $dataDB = array(
+                'nama_variasi'  => $data['nama_variasi'],
+                'harga'         => $data['harga']
+            );
+            $result = $db->table('tbl_produk_variasi')->update($dataDB, ['produk_variasi_id' => $cekDB->produk_variasi_id]);
+        }else{
+            $dataDB = array(
+                'kode_barang'   => $data['kode_barang'],
+                'nama_variasi'  => $data['nama_variasi'],
+                'harga'         => $data['harga']
+            );
+            $result = $db->table('tbl_produk_variasi')->insert($dataDB);
         }
-        
-        return redirect()->to('admin/produk');
+
+        if ($result){
+            echo "Data berhasil disimpan";
+        }else{
+            echo "Data gagal disimpan";
+        }
     }
     
     /**
@@ -111,14 +73,11 @@ class Produk extends ResourceController
      */
     public function edit($id = null)
     {
-        $db = \config\Database::connect();
-
         $data = [
             'Produk' => $this->model->where('id', $id)->first(),
             'title' => "Data Produk",
             'sub_title' => "Edit Data Produk",
         ];
-        $data['variasi'] = $db->table('tbl_produk_variasi')->where('kode_barang', $data['Produk']->kode_barang)->get()->getResult();
         return view('produk/edit', $data);
     }
 
@@ -165,13 +124,15 @@ class Produk extends ResourceController
      */
     public function delete($id = null)
     {
-        if ($this->model->delete($id)) {
+        $db = \config\Database::connect();
+        $cekDB = $db->table('tbl_produk_variasi')->join('tbl_produk', 'tbl_produk.kode_barang = tbl_produk_variasi.kode_barang')->where('produk_variasi_id', $id)->get()->getRow();
+        if ($db->table('tbl_produk_variasi')->delete(['produk_variasi_id' => $id])) {
             session()->setFlashdata('message', 'Hapus Data Berhasil');
         } else {
             session()->setFlashdata('error', 'Hapus Data Tidak Berhasil');
         }
 
-        return redirect()->to('admin/produk');
+        return redirect()->to('admin/produk/'.$cekDB->id.'/edit');
     }
 
 

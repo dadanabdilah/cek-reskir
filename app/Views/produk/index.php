@@ -54,6 +54,7 @@
                             <td>Rp. <?= number_format($value->harga, 0,'.',',') ?></td>
                             <td>
                                <div class="d-flex">
+                                    <a class="btn btn-info btn-sm mr-2" href="<?= site_url('admin/variasi/' . $value->id) ?>">Variasi Harga</a>
                                     <a class="btn btn-warning btn-sm mr-2" href="<?= site_url('admin/produk/' . $value->id) ?>/edit">Edit</a>
                                     <a class="btn btn-danger btn-sm mr-2" href="<?= site_url('admin/produk/delete/' . $value->id) ?>">Hapus</a>
                                </div>
