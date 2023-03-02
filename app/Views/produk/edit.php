@@ -114,7 +114,7 @@
                                             <td width="5%"><?=$no++?></td>
                                             <td width="35%">
                                                 <input type="text" name="nama_variasi" id="nama_variasinew<?=$i?>" class="form-control">
-                                                <input type="hidden" name="produk_variasi_id" id="produk_variasi_id<?=$key->produk_variasi_id?>" class="form-control" value="--">
+                                                <input type="hidden" name="produk_variasi_id" id="produk_variasi_id<?=$i?>" class="form-control" value="--">
                                             </td>
                                             <td width="25%">
                                                 <input type="text" name="harga" id="harganew<?=$i?>" class="form-control">
