@@ -275,14 +275,14 @@ class Sistem extends BaseController
             $message .= "\r\n*Barang : " . $this->Produk->where('kode_barang', $key->kode_barang)->first()->nama_barang . "*";
             $message .= "\r\n*Status Resi : Aktif*";
             $message .= "\r\n*Update Resi : -*";
-            $message .= "\r\n\r\n*Dan untuk estimasi paket akan datang 2-3 hari pulau jawa dan 3-5 hari Untuk Luar pulau Jawa kak, Pengirimannya JNT EXPRES  ya kakak*";
+            $message .= "\r\n\r\n*Dan untuk estimasi paket akan datang 2-3 hari pulau jawa dan 3-5 hari Untuk Luar pulau Jawa kak*, *Pengirimannya JNT EXPRES ya kakak*";
             $message .= "\r\n*";
             $message .= "\r\n*No Resinya bisa digunakan untuk cek dan melacak pakatnya sudah sampai mana*";
             $message .= "\r\n*";
             $message .= "\r\n*Jika mungkin ada telpon dari nomor tidak dikenal, mohon dijawab, karena itu mungkin telpon dari kurir pengiriman*";
             $message .= "\r\n*";
-            $message .= "\r\n\r\n*agar jika ada problem atau pemesanan selanjutnya kakak bisa langsung hubungi Admin Yang kaka Pesan Barangnya Karna Whatsapp ini Hanya untuk Tracking Resi 🤗🤗*";
-            $message .= "\r\n\r\n*Terimakasi 😊*";
+            $message .= "\r\n\r\n*agar jika ada problem atau pemesanan selanjutnya kakak bisa langsung hubungi Admin Yang kaka Pesan Barangnya Karna Whatsapp ini Hanya untuk Tracking Resi* 🤗🤗";
+            $message .= "\r\n\r\n*Terimakasi* 😊";
             $message .= "\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
             
             sendWa($key->no_telp, $message);
