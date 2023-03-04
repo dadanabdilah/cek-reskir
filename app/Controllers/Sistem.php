@@ -240,14 +240,6 @@ class Sistem extends BaseController
             $Activity = $db->table('tbl_resi_activity')->where(['resi_id' => $key->resi_id, 'sendWhatsapp' => '0'])->orderby('date', 'asc');
             foreach ($Activity->get()->getResult() as $value) {
                 // var_dump($value);
-                $text = "Halo kak Nama, berikut informasi dari resi kaka :
-
-Tanggal : 2023-03-02 | 21:24:19
-Status : 
-Keterangan : 
-No Resi : 
-
-Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))";
                 $message = "Halo kak ".$key->nama_customer.", berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $value->date . "\r\nStatus : Aktif\r\nKeterangan : " . $value->description . " " . $value->location."\r\nNo Resi : " . $key->no_resi."\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
                 $send = sendWa($key->no_telp, $message);
 
