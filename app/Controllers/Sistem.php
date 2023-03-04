@@ -240,7 +240,15 @@ class Sistem extends BaseController
             $Activity = $db->table('tbl_resi_activity')->where(['resi_id' => $key->resi_id, 'sendWhatsapp' => '0'])->orderby('date', 'asc');
             foreach ($Activity->get()->getResult() as $value) {
                 // var_dump($value);
-                $message = "Halo kak, berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $value->date . "\r\nKeterangan : " . $value->description . " " . $value->location;
+                $text = "Halo kak Nama, berikut informasi dari resi kaka :
+
+Tanggal : 2023-03-02 | 21:24:19
+Status : 
+Keterangan : 
+No Resi : 
+
+Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))";
+                $message = "Halo kak ".$key->nama_customer.", berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $value->date . "\r\nStatus : Aktif\r\nKeterangan : " . $value->description . " " . $value->location."\r\nNo Resi : " . $key->no_resi."\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
                 $send = sendWa($key->no_telp, $message);
 
                 if ($send){
@@ -269,14 +277,23 @@ class Sistem extends BaseController
         $no = 0;
         foreach ($Resi->get($limit, $offset)->getResult() as $key){
                 // var_dump($value);
-
             $message = "Hallo Kak 👋\r\nberikut rincian pembelian di *Dewa Store* yaa\r\n";
             $message .= "\r\n*Nama : " . trim($key->nama_customer) . "*";
-            // $message .= "\r\nAlamat : yyyyy";
-            $message .= "\r\n*Pembelian : " . $this->Produk->where('kode_barang', $key->kode_barang)->first()->nama_barang . "*";
             $message .= "\r\n*No resi : " . $key->no_resi . "*";
-            $message .= "\r\n*Update Resi: Kurir telah pick up paket*";
-            $message .= "\r\n\r\nHappy Shoping! 🥰🥰🙏\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+            $message .= "\r\n*Barang : " . $this->Produk->where('kode_barang', $key->kode_barang)->first()->nama_barang . "*";
+            $message .= "\r\n*Status Resi : Aktif*";
+            $message .= "\r\n*Update Resi : -*";
+            $message .= "\r\n\r\n*Dan untuk estimasi paket akan datang 2-3 hari pulau jawa dan 3-5 hari Untuk Luar pulau Jawa kak, 
+Pengirimannya JNT EXPRES  ya kakak*";
+            $message .= "\r\n*";
+            $message .= "\r\n*No Resinya bisa digunakan untuk cek dan melacak pakatnya sudah sampai mana*";
+            $message .= "\r\n*";
+            $message .= "\r\n*Jika mungkin ada telpon dari nomor tidak dikenal, mohon dijawab, karena itu mungkin telpon dari kurir pengiriman*";
+            $message .= "\r\n*";
+            $message .= "\r\n\r\n*agar jika ada problem atau pemesanan selanjutnya kakak 
+bisa langsung hubungi Admin Yang kaka Pesan Barangnya Karna Whatsapp ini Hanya untuk Tracking Resi 🤗🤗*";
+            $message .= "\r\n\r\n*Terimakasi 😊*";
+            $message .= "\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
             
             sendWa($key->no_telp, $message);
 
