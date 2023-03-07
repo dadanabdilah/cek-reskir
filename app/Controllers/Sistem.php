@@ -24,7 +24,7 @@ class Sistem extends BaseController
         date_default_timezone_set("asia/jakarta");
         $Resi = $db->table('tbl_resi');
         $Resi->where('status', "DELIVERED");
-        $Resi->where('datediff(now(), tanggal_pencatatan) > 2');
+        $Resi->where('datediff(now(), tanggal_pencatatan) >= 2');
 
         $no = 0;
         foreach ($Resi->get()->getResult() as $key) {
@@ -232,7 +232,6 @@ class Sistem extends BaseController
         $db      = \Config\Database::connect();
         date_default_timezone_set("asia/jakarta");
         $Resi = $db->table('tbl_resi');
-        $Resi->where('status', NULL);
         $Resi->orderby('tanggal_pencatatan', 'DESC');
 
         $no = 0;

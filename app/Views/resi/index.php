@@ -47,6 +47,7 @@
                   <th>No Telpon</th>
                   <th>Nama Barang</th>
                   <th>Harga</th>
+                  <th>Status</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -60,6 +61,9 @@
                   <td><?= $value->no_telp ?></td>
                   <td><?= $value->nama_barang ?></td>
                   <td>Rp. <?= number_format($value->harga, 0,'.',',') ?></td>
+                  <td>
+                    
+                  </td>
                   <td>
                     <div class="d-flex">
                       <a class="btn btn-info btn-sm mr-2"
