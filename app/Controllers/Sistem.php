@@ -149,6 +149,21 @@ class Sistem extends BaseController
         dd($rows);
     }
 
+    public function cekDownServer()
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://101.255.119.6/",
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 300,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+        ));
+        
+    }
+
 
     public function cekResi($limit = 4, $offset = 1)
     {
@@ -158,6 +173,7 @@ class Sistem extends BaseController
         $db      = \Config\Database::connect();
 
         $apikey  = "ID202302190010290";
+        $apikeyBiteShip = "";
 
         $Resi = $db->table('tbl_resi');
         $Resi->where('status', NULL);
@@ -240,7 +256,7 @@ class Sistem extends BaseController
             foreach ($Activity->get()->getResult() as $value) {
                 // var_dump($value);
                 $message = "Halo kak ".$key->nama_customer.", berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $value->date . "\r\nStatus : Aktif\r\nKeterangan : " . $value->description . " " . $value->location."\r\nNo Resi : " . $key->no_resi."\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
-                $send = sendWa($key->no_telp, $message);
+                // $send = sendWa($key->no_telp, $message);
 
                 if ($send){
                     $no++;
