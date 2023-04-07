@@ -255,18 +255,20 @@ class Sistem extends BaseController
         foreach ($Resi->get($limit, $offset)->getResult() as $key){
             $Activity = $db->table('tbl_resi_activity')->where(['resi_id' => $key->resi_id, 'sendWhatsapp' => '0'])->orderby('date', 'asc');
             foreach ($Activity->get()->getResult() as $value) {
-                // var_dump($value);
-                $message = "Halo kak ".$key->nama_customer.", berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $value->date . "\r\nStatus : Aktif\r\nKeterangan : " . $value->description . " " . $value->location."\r\nNo Resi : " . $key->no_resi."\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
-                // $send = sendWa($key->no_telp, $message);
+                if ($value->description == "Telah Diambil" || $value->description == "Sedang Diantar" || $value->description == "Terkirim"){
+                    // var_dump($value);
+                    $message = "Halo kak ".$key->nama_customer.", berikut informasi dari resi kaka :\r\n\r\nTanggal : ". $value->date . "\r\nStatus : Aktif\r\nKeterangan : " . $value->description . " " . $value->location."\r\nNo Resi : " . $key->no_resi."\r\n\r\n_Ini adalah pesan otomatis, tolong jangan balas pesan ini, jika ada pertanyaan langsung tanyakan ke admin yaa :))_";
+                    $send = sendWa($key->no_telp, $message);
 
-                if ($send){
-                    $no++;
+                    if ($send){
+                        $no++;
+                    }
+                    $update = array(
+                        'sendWhatsapp' => 1
+                    );
+
+                    $db->table('tbl_resi_activity')->update($update, ['resi_activity_id' => $value->resi_activity_id]);
                 }
-                $update = array(
-                    'sendWhatsapp' => 1
-                );
-
-                $db->table('tbl_resi_activity')->update($update, ['resi_activity_id' => $value->resi_activity_id]);
             }
         }
   
