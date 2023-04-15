@@ -191,6 +191,7 @@ class Sistem extends BaseController
             curl_close($curl);
 
             $result = json_decode($json);
+            echo "Resi : ".$values->no_resi."<br/>";
             var_dump($result);
             // $result = $result->rajaongkir;
 
