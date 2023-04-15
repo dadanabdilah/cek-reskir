@@ -188,10 +188,10 @@ class Sistem extends BaseController
             $json = curl_exec($curl);
             // var_dump($json);
             echo $json;
-            curl_close($curl);
+            // curl_close($curl);
 
-            $result = json_decode($json);
-            var_dump($result);
+            // $result = json_decode($json);
+            // var_dump($result);
             // $result = $result->rajaongkir;
 
             // if($result->info == 200){
