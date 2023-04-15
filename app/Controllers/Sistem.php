@@ -223,7 +223,7 @@ class Sistem extends BaseController
                 $deskripsi = $result;
                 $data = [
                     'resi_id' => $values->resi_id,
-                    'deskripsi' => $deskripsi,
+                    'deskripsi' => $deskripsi || "",
                 ];
 
                 if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
