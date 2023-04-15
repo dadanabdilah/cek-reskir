@@ -168,8 +168,6 @@ class Sistem extends BaseController
     public function cekResi($limit = 4, $offset = 1)
     {
         date_default_timezone_set("asia/jakarta");
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $db      = \Config\Database::connect();
 
         $apikey  = "ID202302190010290";
@@ -182,6 +180,8 @@ class Sistem extends BaseController
         $no = 0;
         foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
             echo "Resi ".$values->no_resi;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt_array($curl, array(
                 // CURLOPT_URL => "http://101.255.119.6/api/cekresi/run.php?apikey=".$apikey."&noresi=".$values->no_resi,
                 CURLOPT_URL => "http://34.135.238.233/api-jnt-tracking/?api_key=".$apikey."&waybill=".$values->no_resi,
@@ -189,7 +189,7 @@ class Sistem extends BaseController
                 // CURLOPT_MAXREDIRS => 10,
                 // CURLOPT_TIMEOUT => 300,
                 // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
+                // CURLOPT_CUSTOMREQUEST => "GET",
             ));
 
             $json = curl_exec($curl);
