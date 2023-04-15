@@ -186,6 +186,7 @@ class Sistem extends BaseController
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             $json = curl_exec($curl);
             var_dump($json);
+            echo $json;
             curl_close($curl);
 
             $result = json_decode($json);
