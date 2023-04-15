@@ -193,6 +193,7 @@ class Sistem extends BaseController
             $result = json_decode($json);
             echo "Resi : ".$values->no_resi."<br/>";
             var_dump($result);
+            echo "<br/>";
             // $result = $result->rajaongkir;
 
             // if(@$result->info == 200){
