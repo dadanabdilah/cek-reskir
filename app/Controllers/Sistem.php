@@ -193,7 +193,7 @@ class Sistem extends BaseController
             ));
 
             $json = curl_exec($curl);
-            var_dump($result);
+            var_dump($json);
 
             $result = json_decode($json);
             var_dump($result);
