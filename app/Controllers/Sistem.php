@@ -179,7 +179,7 @@ class Sistem extends BaseController
 
         $no = 0;
         foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
-            $url = "http://34.135.238.233/api-jnt-tracking/";
+            $url = "http://34.135.238.233/api-jnt-tracking/index.php?api_key=".$apikey;
             echo "Resi ".$values->no_resi."<br/>".$url."</br>";
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
