@@ -191,47 +191,47 @@ class Sistem extends BaseController
             curl_close($curl);
 
             $result = json_decode($json);
-            // var_dump($result);
+            var_dump($result);
             // $result = $result->rajaongkir;
 
-            if(@$result->info == 200){
-                if ($result->status == "DELIVERED"){
-                    $update = [
-                        'status' => 'DELIVERED',
-                    ];
-                    $this->Resi->update($values->resi_id, $update);
-                }
-                foreach($result->histori as $key => $val){
+            // if(@$result->info == 200){
+            //     if ($result->status == "DELIVERED"){
+            //         $update = [
+            //             'status' => 'DELIVERED',
+            //         ];
+            //         $this->Resi->update($values->resi_id, $update);
+            //     }
+            //     foreach($result->histori as $key => $val){
                     
-                    $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->time)->where('description', $val->desc)->findAll();
+            //         $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->time)->where('description', $val->desc)->findAll();
                     
-                    if(count($res_act) == 0 ){
-                        $data = [
-                            'resi_id' => $values->resi_id,
-                            'date' => $val->time,
-                            'description' => $val->desc,
-                            'location' => $val->position,
-                        ];
+            //         if(count($res_act) == 0 ){
+            //             $data = [
+            //                 'resi_id' => $values->resi_id,
+            //                 'date' => $val->time,
+            //                 'description' => $val->desc,
+            //                 'location' => $val->position,
+            //             ];
             
-                        $this->ResiAct->save($data);
+            //             $this->ResiAct->save($data);
 
-                    }
-                }
+            //         }
+            //     }
 
-                $no++;
-            } else {
-                $deskripsi = $result;
-                $data = [
-                    'resi_id' => $values->resi_id,
-                    'deskripsi' => $deskripsi || "",
-                ];
+            //     $no++;
+            // } else {
+            //     $deskripsi = $result;
+            //     $data = [
+            //         'resi_id' => $values->resi_id,
+            //         'deskripsi' => $deskripsi || "",
+            //     ];
 
-                if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
-                    $this->ResiNotif->save($data);
-                }
-                $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
-                echo "[".date("Y/m/d H:i:s")."] logResiInvalid.txt updated.";
-            }
+            //     if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
+            //         $this->ResiNotif->save($data);
+            //     }
+            //     $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
+            //     echo "[".date("Y/m/d H:i:s")."] logResiInvalid.txt updated.";
+            // }
 
         }
 
