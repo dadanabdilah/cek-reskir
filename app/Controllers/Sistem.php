@@ -180,58 +180,58 @@ class Sistem extends BaseController
         $no = 0;
         foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
             $url = "http://34.135.238.233/api-jnt-tracking/index.php?api_key=".$apikey."&waybill=".$values->no_resi;
-            echo "Resi ".$values->no_resi."<br/>".$url."</br>";
+            // echo "Resi ".$values->no_resi."<br/>".$url."</br>";
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             $json = curl_exec($curl);
             // var_dump($json);
-            echo $json;
-            // curl_close($curl);
+            // echo $json;
+            curl_close($curl);
 
-            // $result = json_decode($json);
+            $result = json_decode($json);
             // var_dump($result);
             // $result = $result->rajaongkir;
 
-            // if($result->info == 200){
-            //     if ($result->status == "DELIVERED"){
-            //         $update = [
-            //             'status' => 'DELIVERED',
-            //         ];
-            //         $this->Resi->update($values->resi_id, $update);
-            //     }
-            //     foreach($result->histori as $key => $val){
+            if(@$result->info == 200){
+                if ($result->status == "DELIVERED"){
+                    $update = [
+                        'status' => 'DELIVERED',
+                    ];
+                    $this->Resi->update($values->resi_id, $update);
+                }
+                foreach($result->histori as $key => $val){
                     
-            //         $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->time)->where('description', $val->desc)->findAll();
+                    $res_act = $this->ResiAct->where('resi_id', $values->resi_id)->where('date', $val->time)->where('description', $val->desc)->findAll();
                     
-            //         if(count($res_act) == 0 ){
-            //             $data = [
-            //                 'resi_id' => $values->resi_id,
-            //                 'date' => $val->time,
-            //                 'description' => $val->desc,
-            //                 'location' => $val->position,
-            //             ];
+                    if(count($res_act) == 0 ){
+                        $data = [
+                            'resi_id' => $values->resi_id,
+                            'date' => $val->time,
+                            'description' => $val->desc,
+                            'location' => $val->position,
+                        ];
             
-            //             $this->ResiAct->save($data);
+                        $this->ResiAct->save($data);
 
-            //         }
-            //     }
+                    }
+                }
 
-            //     $no++;
-            // } else {
-            //     $deskripsi = $result;
-            //     $data = [
-            //         'resi_id' => $values->resi_id,
-            //         'deskripsi' => $deskripsi,
-            //     ];
+                $no++;
+            } else {
+                $deskripsi = $result;
+                $data = [
+                    'resi_id' => $values->resi_id,
+                    'deskripsi' => $deskripsi,
+                ];
 
-            //     if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
-            //         $this->ResiNotif->save($data);
-            //     }
-            //     $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
-            //     echo "[".date("Y/m/d H:i:s")."] logResiInvalid.txt updated.";
-            // }
+                if($this->ResiNotif->where('resi_id', $values->resi_id)->where('deskripsi', $deskripsi)->countAllResults() < 1){
+                    $this->ResiNotif->save($data);
+                }
+                $this->createLog("logResiInvalid.txt", "[".date("Y/m/d H:i:s")."] Resi $values->no_resi $deskripsi.\r\n");
+                echo "[".date("Y/m/d H:i:s")."] logResiInvalid.txt updated.";
+            }
 
         }
 
