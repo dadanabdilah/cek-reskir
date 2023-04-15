@@ -181,6 +181,7 @@ class Sistem extends BaseController
 
         $no = 0;
         foreach($Resi->get($limit, $offset)->getResult() as $keys => $values){
+            echo "Resi ".$values->no_resi;
             curl_setopt_array($curl, array(
                 // CURLOPT_URL => "http://101.255.119.6/api/cekresi/run.php?apikey=".$apikey."&noresi=".$values->no_resi,
                 CURLOPT_URL => "http://34.135.238.233/api-jnt-tracking/?api_key=".$apikey."&waybill=".$values->no_resi,
@@ -192,6 +193,7 @@ class Sistem extends BaseController
             ));
 
             $json = curl_exec($curl);
+            var_dump($result);
 
             $result = json_decode($json);
             var_dump($result);
