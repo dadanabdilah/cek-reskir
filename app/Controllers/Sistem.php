@@ -182,7 +182,7 @@ class Sistem extends BaseController
             $url = "http://34.135.238.233/api-jnt-tracking/?api_key=".$apikey."&waybill=".$values->no_resi;
             echo "Resi ".$values->no_resi."<br/>".$url."</br>";
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, "www.google.com");
+            curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             $json = curl_exec($curl);
             var_dump($json);
